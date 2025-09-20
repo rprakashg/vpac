@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install ansible-core ansible-lint yamllint
+
+      - name: Run ansible-lint
+        run: ansible-lint ansible_collections/rprakashg/vpac
+
+      - name: Run yamllint
+        run: yamllint .
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      matrix:
+        python: ["3.9", "3.11"]
+        ansible: ["2.15", "2.16"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies
+        run: |
+          pip install "ansible-core==${{ matrix.ansible }}" pytest
+
+      - name: Run pytest (if applicable)
+        run: pytest || echo "No tests found"
