@@ -7,6 +7,9 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    container:
+      image: registry.access.redhat.com/ubi9/ubi
+      options: --privileged
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -24,6 +27,9 @@ jobs:
         continue-on-error: true
   test:
     runs-on: ubuntu-latest
+    container:
+      image: registry.access.redhat.com/ubi9/ubi
+      options: --privileged
     needs: lint
     strategy:
       matrix:
