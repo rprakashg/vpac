@@ -31,18 +31,12 @@ jobs:
       image: registry.access.redhat.com/ubi9/ubi
       options: --privileged
     needs: lint
-    strategy:
-      matrix:
-        python: ["3.9", "3.11"]
-        ansible: ["2.15", "2.16"]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Install dependencies
+      - name: Install ansible core
         run: |
-          pip install "ansible-core==${{ matrix.ansible }}" pytest
-      - name: Run pytest (if applicable)
-        run: pytest || echo "No tests found"
+          dnf install -y ansible-core
+    
+      - name: Install required ansible collections
+        run: |
+          ansible-galaxy collection install amazon.aws
