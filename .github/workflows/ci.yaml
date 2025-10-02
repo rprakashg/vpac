@@ -12,13 +12,9 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
       - name: Install dependencies
         run: |
-          pip install ansible-core ansible-lint yamllint
+          dnf install -y ansible-core ansible-lint yamllint
       - name: Run ansible-lint
         run: ansible-lint ansible_collections/rprakashg/vpac
         continue-on-error: true
