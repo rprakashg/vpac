@@ -12,6 +12,13 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v4
+      - name: Access a subscription via activation key
+        env:
+          SMDEV_CONTAINER_OFF: 1
+          orgid: ${{ secrets.ORGID }}
+          activation_key: ${{ secrets.ACTIVATION_KEY }}
+        run: subscription-manager register --org=$orgid --activationkey=$activation_key
+
       - name: Install dependencies
         run: |
           dnf install -y ansible-core ansible-lint yamllint
@@ -21,6 +28,11 @@ jobs:
       - name: Run yamllint
         run: yamllint
         continue-on-error: true
+      - name: Clean up the subscription
+        env:
+          SMDEV_CONTAINER_OFF: 1
+        run: subscription-manager unregister
+
   test:
     runs-on: ubuntu-latest
     container:
@@ -29,6 +41,14 @@ jobs:
     needs: lint
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Access a subscription via activation key
+        env:
+          SMDEV_CONTAINER_OFF: 1
+          orgid: ${{ secrets.ORGID }}
+          activation_key: ${{ secrets.ACTIVATION_KEY }}
+        run: subscription-manager register --org=$orgid --activationkey=$activation_key
+
       - name: Install ansible core
         run: |
           dnf install -y ansible-core python3
@@ -36,3 +56,8 @@ jobs:
       - name: Install required ansible collections
         run: |
           ansible-galaxy collection install amazon.aws
+
+      - name: Clean up the subscription
+        env:
+          SMDEV_CONTAINER_OFF: 1
+        run: subscription-manager unregister
