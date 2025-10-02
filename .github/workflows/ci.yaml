@@ -32,7 +32,7 @@ jobs:
         run: ansible-lint ansible_collections/rprakashg/vpac
         continue-on-error: true
       - name: Run yamllint
-        run: yamllint
+        run: yamllint --strict .
         continue-on-error: true
       - name: Clean up the subscription
         env:
