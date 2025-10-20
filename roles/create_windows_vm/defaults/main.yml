@@ -1,2 +1,14 @@
 ---
 # defaults file for ./roles/create_windows_vm
+# Virtual machine default
+vm_name: win11
+vm_memory: 16
+vm_vcpus: 4
+
+# Storage defaults
+disk_size: 128
+
+# User defaults
+admin_user: admin
+organization: redhat
+

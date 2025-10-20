@@ -1,7 +1,9 @@
 ---
 # vars file for ./roles/create_windows_vm
-virt_io_download_link: https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
+windows_iso: Win11_25H2_English_x64.iso
+windows_version: 11
 
+virt_io_download_link: https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
 
 # async tasks configuration
 timeout: 1800 # allow the async task to run 30 minutes

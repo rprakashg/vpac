@@ -13,6 +13,23 @@ Role Variables
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| vm_name | Name | win11 |
+| vm_memory | Memory | 16 |
+| vm_vcpus | Virtual CPUs | 4 |
+| admin_user | Admin user | admin |
+| organization | Organization | redhat |
+| disk_size | Disk size | 128 |
+
+Variables that must be set in ansible vault
+
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| windows_license_key | Windows license key | none |
+| admin_user_password | Admin user password | none |
+
+
 Dependencies
 ------------
 
