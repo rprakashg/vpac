@@ -1,6 +1,6 @@
 galaxy_info:
   author: Ram Gopinathan
-  description: This role enables virtualization features on RHEL host
+  description: This role configures windows machine
   company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the
