@@ -4,5 +4,6 @@ virt_io_download_link: https://fedorapeople.org/groups/virt/virtio-win/direct-do
 
 
 # async tasks configuration
-retries: 50 # maximum number of times to retry checking status of async task
-delay: 5 # check every 5 seconds
+timeout: 1800 # allow the async task to run 30 minutes
+retries: 180 # maximum number of times to retry checking status of async task
+delay: 10 # check every 5 seconds
