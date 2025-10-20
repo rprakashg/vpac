@@ -1,5 +1,8 @@
 **/.DS_Store
 
+# inventory
+*.ini
+
 # VSCode settings file
 /.vscode/settings.json
 

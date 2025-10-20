@@ -1,0 +1,12 @@
+---
+# Preflight steps
+- name: Install required packages
+  ansible.builtin.dnf:
+    state: present
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - qemu-kvm
+    - libvirt
+    - virt-Install
+    - virt-viewer

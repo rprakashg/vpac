@@ -1,0 +1,9 @@
+---
+# tasks file for ./roles/enable_virtualization
+- name: Preflight
+  become: yes
+  ansible.builtin.import_tasks: preflight.yml
+
+- name: Configure
+  become: yes
+  ansible.builtin.import_tasks: configure_virtualization.yml
