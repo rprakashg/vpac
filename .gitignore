@@ -1,0 +1,7 @@
+**/.DS_Store
+
+# VSCode settings file
+/.vscode/settings.json
+
+playbooks/vars/secrets.yml
+playbooks/inventory
