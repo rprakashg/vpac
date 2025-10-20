@@ -5,29 +5,18 @@
     name: "{{ services }}"
     state: started
     enabled: true
-  vars:
-    services:
-    - virtqemud.socket
-    - virtqemud-ro.socket
-    - virtqemud-admin.socket
-    - virtnetworkd.socket
-    - virtnetworkd-ro.socket
-    - virtnetworkd-admin.socket
-    - virtnodedevd.socket
-    - virtnodedevd-ro.socket
-    - virtnodedevd-admin.socket
-    - virtnwfilterd.socket
-    - virtnwfilterd-ro.socket
-    - virtnwfilterd-admin.socket
-    - virtsecretd.socket
-    - virtsecretd-ro.socket
-    - virtsecretd-admin.socket
-    - virtstoraged.socket
-    - virtstoraged-ro.socket
-    - virtstoraged-admin.socket
-    - virtinterfaced.socket
-    - virtinterfaced-ro.socket
-    - virtinterfaced-admin.socket
+  loop: >
+    {{
+      [
+        'virtqemud.socket', 'virtqemud-ro.socket', 'virtqemud-admin.socket',
+        'virtnetworkd.socket', 'virtnetworkd-ro.socket', 'virtnetworkd-admin.socket',
+        'virtnodedevd.socket', 'virtnodedevd-ro.socket', 'virtnodedevd-admin.socket',
+        'virtnwfilterd.socket', 'virtnwfilterd-ro.socket', 'virtnwfilterd-admin.socket',
+        'virtsecretd.socket', 'virtsecretd-ro.socket', 'virtsecretd-admin.socket',
+        'virtstoraged.socket', 'virtstoraged-ro.socket', 'virtstoraged-admin.socket',
+        'virtinterfaced.socket', 'virtinterfaced-ro.socket', 'virtinterfaced-admin.socket'
+      ]
+    }}
 
 - name: Verify that host is prepared to be a virtualization host
   ansible.builtin.shell: |
