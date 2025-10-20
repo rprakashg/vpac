@@ -1,0 +1,33 @@
+---
+# This tasks creates autounattend iso file for unattended installation 
+# of windows 11
+- name: Start
+  ansible.builtin.debug:
+    msg: "Starting building autounattend.iso"
+
+- name: Create a temp directory
+  ansible.builtin.tempfile:
+    suffix: auto
+    state: directory
+  register: tempdir_result
+
+- name: Set directory path in fact
+  ansible.builtin.set_fact:
+    outdir: "{{ tempdir_result.path }}"
+
+- name: Create autounattend.xml file from the template
+  ansible.builtin.template:
+    src: 'autounattend.xml.j2'
+    dest: "{{ outdir }}/autounattend.xml"
+
+- name: Make iso
+  ansible.builtin.shell: |
+    mkisofs -o "{{ outdir }}/autounattend.iso" -V "AUTOUNATTEND" "{{ outdir }}/autounattend.xml"
+
+- name: Move the generated iso into /lib
+  ansible.builtin.command: |
+    mv "{{ outdir }}/autounattend.iso" /var/lib/libvirt/images/autounattend.iso
+
+- name: End
+  ansible.builtin.debug:
+    msg: "Finished building autounattend.iso"

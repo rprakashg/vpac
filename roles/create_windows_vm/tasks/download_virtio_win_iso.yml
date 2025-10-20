@@ -1,0 +1,8 @@
+---
+# This tasks downloads and places virtio windows drivers and places it in
+# /var/lib/libvirt/images directory
+- name: Download virtio win drivers
+  ansible.builtin.get_url: 
+    url: "{{ virt_io_download_link }}"
+    dest: /var/lib/libvirt/images/
+    mode: '0644'
