@@ -8,5 +8,5 @@
     packages:
     - qemu-kvm
     - libvirt
-    - virt-Install
+    - virt-install
     - virt-viewer
