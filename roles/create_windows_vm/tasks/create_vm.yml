@@ -25,7 +25,7 @@
     --boot cdrom,hd,menu=off
     --graphics none
     --noautoconsole
-  async: "{{ timeout }}"
+  async: "{{ task_timeout }}"
   poll: 0
   register: install_task
 
@@ -34,7 +34,7 @@
     jid: "{{ install_task.ansible_job_id }}"
   register: install_result
   until: install_result.finished
-  retries: "{{ retries }}"
-  delay: "{{ delay }}"
+  retries: "{{ task_retries }}"
+  delay: "{{ task_delay }}"
 
   
