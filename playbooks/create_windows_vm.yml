@@ -6,8 +6,6 @@
   vars_files:
   - vars/main.yml
   tasks:
-  # Load secrets from ansible vault, be sure to create this using ansible-vault 
-  # cli and include admin user details and windows license key there
   - name: Load secrets from ansible vault
     ansible.builtin.include_vars:
       file: vars/secrets.yml
