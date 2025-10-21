@@ -2,7 +2,7 @@
 # This task configures virtualization services on the RHEL host
 - name: Start services
   ansible.builtin.systemd:
-    name: "{{ services }}"
+    name: "{{ item }}"
     state: started
     enabled: true
   loop: >
