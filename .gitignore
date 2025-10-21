@@ -7,4 +7,5 @@
 /.vscode/settings.json
 
 playbooks/vars/secrets.yml
+playbooks/vars/main.yml
 playbooks/inventory
