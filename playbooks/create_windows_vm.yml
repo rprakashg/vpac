@@ -9,7 +9,7 @@
   - name: Load secrets from ansible vault
     ansible.builtin.include_vars:
       file: vars/secrets.yml
-  #- name: Import create windows vm role
-  #  ansible.builtin.import_role:
-  #    name: rprakashg.vpac.create_windows_vm
+  - name: Import create windows vm role
+    ansible.builtin.import_role:
+      name: rprakashg.vpac.create_windows_vm
     

@@ -12,7 +12,7 @@
     creates: "{{ vm_name }}.qcow2"
 
 - name: Install windows 11 unattended
-  ansible.builtin.command: >
+  ansible.builtin.command: |
     virt-install 
     --name {{ vm_name }}
     --memory {{ vm_memory }}
