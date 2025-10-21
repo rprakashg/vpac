@@ -22,11 +22,11 @@
 
 - name: Make iso
   ansible.builtin.shell: |
-    mkisofs -o "{{ outdir }}/autounattend.iso" -V "AUTOUNATTEND" "{{ outdir }}/autounattend.xml"
+    mkisofs -o {{ outdir }}/autounattend.iso -V "AUTOUNATTEND" {{ outdir }}/autounattend.xml
 
 - name: Move the generated iso into /lib
   ansible.builtin.command: |
-    mv "{{ outdir }}/autounattend.iso" /var/lib/libvirt/images/autounattend.iso
+    mv {{ outdir }}/autounattend.iso /var/lib/libvirt/images/autounattend.iso
 
 - name: End
   ansible.builtin.debug:

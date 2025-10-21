@@ -4,5 +4,5 @@
 - name: Download virtio win drivers
   ansible.builtin.get_url: 
     url: "{{ virt_io_download_link }}"
-    dest: /var/lib/libvirt/images/
-    mode: '0644'
+    dest: "/var/lib/libvirt/images/"
+    mode: "0644"

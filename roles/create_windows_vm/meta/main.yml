@@ -1,7 +1,7 @@
 galaxy_info:
   author: Ram Gopinathan
   description: Create a microsoft windows 11 virtual machine
-  company: Red Hat (optional)
+  company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
