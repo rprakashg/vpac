@@ -12,6 +12,6 @@
   become: yes
   ansible.builtin.import_tasks: download_virtio_win_iso.yml
   
-#- name: Create windows virtual machine
-#  become: yes
-#  ansible.builtin.import_tasks: create_windows_vm.yml
+- name: Create windows virtual machine
+  become: yes
+  ansible.builtin.import_tasks: create_vm.yml
