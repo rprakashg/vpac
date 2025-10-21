@@ -16,4 +16,4 @@
 - name: Check if file exists
   ansible.builtin.fail:
     msg: "Pre-requisite not met: Cannot find {{ windows_iso }} in /var/lib/libvirt/images/ directory. Please download from microsoft software downloads."
-  when: not file_stat.exists
+  when: not file_stat.stat.exists
