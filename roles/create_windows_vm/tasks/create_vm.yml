@@ -6,24 +6,24 @@
 
 - name: Create virtual disk
   ansible.builtin.shell: |
-    qemu-img create -f qcow2 {{ vm_name }}.qcow2 {{ disk_size }}
+    qemu-img create -f qcow2 -o preallocation=metadata,lazy_refcounts=on {{ vm_name }}.qcow2 {{ disk_size }}G
   args:
     chdir: "/var/lib/libvirt/images"
     creates: "{{ vm_name }}.qcow2"
 
 - name: Install windows 11 unattended
-  ansible.builtin.command: >
-    virt-install
-      --name {{ vm_name }}
-      --memory {{ vm_memory }}
-      --vcpus {{ vm_vcpus }}
-      --disk path=/var/lib/libvirt/images/{{ vm_name }}.qcow2,bus=virtio
-      --cdrom /var/lib/libvirt/images/{{ windows_iso }}
-      --disk path=/var/lib/libvirt/images/autounattend.iso,device=cdrom
-      --os-variant win11
-      --network network=default,model=virtio
-      --boot cdrom,hd,menu=off
-      --graphics none
+  ansible.builtin.command: |
+    virt-install --connect qemu:///system \
+      --name {{ vm_name }} \
+      --memory {{ vm_memory }} \
+      --vcpus {{ vm_vcpus }} \
+      --disk path=/var/lib/libvirt/images/{{ vm_name }}.qcow2,bus=virtio \
+      --cdrom /var/lib/libvirt/images/{{ windows_iso }} \
+      --disk path=/var/lib/libvirt/images/autounattend.iso,device=cdrom \
+      --os-variant win11 \
+      --network network=default,model=virtio \
+      --boot cdrom,hd,menu=off \
+      --graphics none \
       --noautoconsole
   async: "{{ task_timeout }}"
   poll: 0
@@ -37,4 +37,4 @@
   retries: "{{ task_retries }}"
   delay: "{{ task_delay }}"
 
-  
+- name: 
