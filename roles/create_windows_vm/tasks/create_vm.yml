@@ -37,4 +37,6 @@
   retries: "{{ task_retries }}"
   delay: "{{ task_delay }}"
 
-- name: 
+- name: debug
+  ansible.builtin.debug:
+    var: install_task
