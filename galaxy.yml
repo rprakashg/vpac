@@ -42,6 +42,8 @@ tags: ["infrastructure", "iec61850", "vpac", "protection", "automation", "contro
 # range specifiers can be set and are separated by ','
 dependencies:
   ansible.windows: ">=3.2.0"
+  redhat.rhel_system_roles: ">=1.108.6"
+  community.general: ">=11.4.0"
 
 # The URL of the originating SCM repository
 repository: http://github.com/rprakashg/vpac

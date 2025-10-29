@@ -6,6 +6,6 @@ windows_version: 11
 virt_io_download_link: https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
 
 # async tasks configuration
-task_timeout: 1800 # allow the async task to run 30 minutes
-task_retries: 180 # maximum number of times to retry checking status of async task
-task_delay: 10 # check every 5 seconds
+wait: 1800 # allow the async task to run 30 minutes
+retries: 180 # maximum number of times to retry checking status of async task
+delay: 10 # check every 5 seconds
