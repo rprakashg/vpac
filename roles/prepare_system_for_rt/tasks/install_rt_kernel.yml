@@ -1,0 +1,57 @@
+---
+# This tasks automates installation of RHEL RT kernel on the host system
+# and reboots the system and waits for it. Original source
+# https://github.com/kwozyman/vpac
+- name: Enable Repos
+  community.general.rhsm_repository:
+    name: "{{ repos }}"
+    state: enabled
+  vars:
+    repos:
+    - rhel-9-for-x86_64-rt-rpms
+    - rhel-9-for-x86_64-nfv-rpms
+
+- name: Perform a GroupInstall of RT packages
+  ansible.builtin.dnf:
+    name: "@RT"
+    state: present
+
+- name: Install additional packages
+  ansible.builtin.dnf:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - tuned-profiles-nfv-host
+
+- name: Set default RT as default kernel
+  ansible.builtin.shell: grubby --set-default-index 0
+
+- name: Version lock on kernel
+  community.general.dnf_versionlock:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - kernel
+  - kernel-core
+  - kernel-modules
+
+- name: UN-Versionlock on kernel-rt
+  community.general.dnf_versionlock:
+    name: kernel-rt
+    state: absent
+
+- name: Reboot host machine
+  block:
+  - name: Rebooting server
+    ansible.builtin.reboot:
+      msg: "Reboot initiated by Ansible"
+      connect_timeout: 5
+      reboot_timeout: 300
+      pre_reboot_delay: 0
+      post_reboot_delay: 30
+      test_command: uptime
+  - name: Pinging the host
+    ansible.builtin.ping:
+  - debug:
+      msg: "Finished rebooting host machine"

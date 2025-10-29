@@ -1,0 +1,10 @@
+---
+# tasks file for ./roles/prepare_system_for_rt
+- name: Setting up intel cache allocation technology
+  ansible.builtin.import_tasks: setup_intelcat.yml
+
+- name: Installing and configuring RT Kernel
+  ansible.builtin.import_tasks: install_rt_kernel.yml
+
+- name: Configuring performance and power profiles with tuned
+  ansible.builtin.import_tasks: setup_tuned.yml

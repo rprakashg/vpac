@@ -1,0 +1,3 @@
+---
+# defaults file for ./roles/prepare_system_for_rt
+profile: realtime-virtual-host
