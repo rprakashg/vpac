@@ -1,6 +1,6 @@
 galaxy_info:
   author: Ram Gopinathan
-  description: Configure RHEL based virtualization host for running protection software workloads
+  description: Prepare the host system for SSC600 SW deployment
   company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the

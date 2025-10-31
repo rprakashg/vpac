@@ -1,0 +1,14 @@
+---
+# defaults file for ./roles/prepare_system_for_ssc600sw
+rt_config:
+  non_rt_cores_cat: f
+  non_rt_cache_cat: "0x600"
+  rt_cache: "0x1ff"
+  rt_cores: 12-15
+  cpumask: 40000
+  nic: "ens2f0"
+
+ssc600_ptp:
+  status_dir: /home/libvirt-local/ptp/
+  socket: /var/run/timemaster/ptp4l.0.socket
+  ptp4l_options: "-l 5 -A --clientOnly=1 --step_threshold=0.1"

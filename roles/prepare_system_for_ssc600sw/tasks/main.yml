@@ -1,0 +1,10 @@
+---
+# tasks file for ./roles/prepare_system_for_ssc600sw
+- name: Perform host startup configurations
+  ansible.builtin.import_tasks: startup_service.yml
+
+- name: Configure PTP
+  ansible.builtin.import_tasks: configure_ptp.yml
+
+- name: Configure modprobe options for SSC600 SW
+  ansible.builtin.import_tasks: configure_modprobe.yml
