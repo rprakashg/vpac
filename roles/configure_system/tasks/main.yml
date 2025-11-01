@@ -2,7 +2,7 @@
 # tasks file for ./roles/configure_system (Re-used from github.com/kwozyman/vpac)
 - name: Configure bootloader
   ansible.builtin.import_role:
-    name: redhat.rhel_system_roles.bootloader
+    name: linux_system_roles.bootloader
   vars:
     bootloader_settings:
     - kernel: ALL
@@ -40,7 +40,7 @@
 
 - name: Configure kernel settings
   ansible.builtin.import_role:
-    name: redhat.rhel_system_roles.kernel_settings
+    name: linux_system_roles.kernel_settings
   vars:
     kernel_settings_sysctl:
     - name: kernel.nmi_watchdog
@@ -52,7 +52,7 @@
 
 - name: Configure timesync
   ansible.builtin.import_role:
-    name: redhat.rhel_system_roles.timesync
+    name: linux_system_roles.timesync
   vars:
     timesync_ntp_providers: chrony
     timesync_ptp_domains:
