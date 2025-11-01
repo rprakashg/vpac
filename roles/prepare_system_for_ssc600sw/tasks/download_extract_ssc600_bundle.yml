@@ -24,8 +24,7 @@
   ansible.builtin.shell:
     cmd: cabextract -d {{ ssc600_bundle.extracted_path }} {{ ssc600_bundle.path }}/{{ ssc600_bundle.file }}
 
-- name: Unarchive the disk image
-  ansible.builtin.unarchive:
-    remote_src: true
-    src: "{{ ssc600_bundle.extracted_path }}/virtual_products/ssc600_disk.img.gz"
-    dest: "{{ ssc600_bundle.extracted_path }}/virtual_products/"
+- name: Extract the disk image from the archive
+  ansible.builtin.shell:
+    cmd: gunzip ssc600_disk.img.gz
+    chdir: "{{ ssc600_bundle.extracted_path }}/virtual_products"
