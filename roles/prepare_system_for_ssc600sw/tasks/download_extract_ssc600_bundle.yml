@@ -1,0 +1,36 @@
+---
+# This tasks downloads and extracts ssc600 SW bundle
+- name: Download SSC600 SW (KVM bundle)
+  ansible.builtin.get_url:
+    url: "{{ download_url }}"
+    dest: "{{ ssc600_bundle.path }}"
+    mode: '0644'
+
+- name: Install cabextract
+  block:
+  - name: Enable codeready linux builder repo
+    community.general.rhsm_repository:
+      name: "codeready-builder-for-rhel-9-{{ ansible_architecture }}-rpms"
+      state: enabled
+  - name: Install EPEL release
+    ansible.builtin.dnf:
+      name: "{{ packages }}"
+      state: latest
+      disable_gpg_check: true
+    vars:
+      packages:
+      - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+  
+  - name: Install cab extract
+    ansible.builtin.dnf:
+      name: "cabextract"
+      state: latest
+
+- name: Extract cab file
+  ansible.builtin.shell: |
+    cmd: "cabextract -d {{ ssc600_bundle.extracted_path }} {{ ssc600_bundle.path }}/{{ ssc600_bundle.file }}"
+
+- name: Unarchive the disk image
+  ansible.builtin.unarchive:
+    src: "{{ ssc600_bundle.extracted_path }}/virtual_products/ssc600_disk.img.gz"
+    dest: "{{ ssc600_bundle.extracted_path }}/virtual_products"
