@@ -1,3 +1,0 @@
----
-# vars file for ./roles/configure_system
-pb_nic: "" # NIC for process bus traffic

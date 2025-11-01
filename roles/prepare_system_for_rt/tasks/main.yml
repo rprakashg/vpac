@@ -1,5 +1,8 @@
 ---
 # tasks file for ./roles/prepare_system_for_rt
+- name: Configure system using linux system roles
+  ansible.builtin.import_tasks: configure_system.yml
+  
 - name: Setting up intel cache allocation technology
   ansible.builtin.import_tasks: setup_intelcat.yml
 
