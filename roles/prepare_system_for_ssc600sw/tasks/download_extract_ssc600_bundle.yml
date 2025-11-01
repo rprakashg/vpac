@@ -2,7 +2,7 @@
 # This tasks downloads and extracts ssc600 SW bundle
 - name: Download SSC600 SW (KVM bundle)
   ansible.builtin.get_url:
-    url: "{{ download_url }}"
+    url: "{{ ssc600_bundle.download_link }}"
     dest: "{{ ssc600_bundle.path }}"
     mode: '0644'
 
