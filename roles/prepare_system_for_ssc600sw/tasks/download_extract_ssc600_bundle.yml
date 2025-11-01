@@ -21,8 +21,8 @@
       state: latest
 
 - name: Extract cab file
-  ansible.builtin.shell: |
-    cmd: "cabextract -d {{ ssc600_bundle.extracted_path }} {{ ssc600_bundle.path }}/{{ ssc600_bundle.file }}"
+  ansible.builtin.shell:
+    cmd: cabextract -d {{ ssc600_bundle.extracted_path }} {{ ssc600_bundle.path }}/{{ ssc600_bundle.file }}
 
 - name: Unarchive the disk image
   ansible.builtin.unarchive:
