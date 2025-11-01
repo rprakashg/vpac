@@ -26,5 +26,6 @@
 
 - name: Unarchive the disk image
   ansible.builtin.unarchive:
+    remote_src: true
     src: "{{ ssc600_bundle.extracted_path }}/virtual_products/ssc600_disk.img.gz"
     dest: "{{ ssc600_bundle.extracted_path }}/virtual_products/"
