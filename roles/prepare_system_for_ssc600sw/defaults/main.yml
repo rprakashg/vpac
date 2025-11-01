@@ -16,5 +16,5 @@ ssc600_ptp:
 ssc600_bundle:
   download_link: "https://campaign-el.abb.com/l/961032/-DocumentPartId--Action-Launch/6mjq2"
   file: SSC600_SW_KVM-1.5.1.cab
-  path: /home/software/
-  extracted_path: /home/software/abb/
+  path: /home/software
+  extracted_path: /home/software/abb
