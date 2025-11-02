@@ -6,7 +6,20 @@ rt_config:
   rt_cache: "0x1ff"
   rt_cores: 12-15
   cpumask: 40000
-  nic: "ens2f0"
+
+networking:
+  infrastructurebus:
+    nic: ""
+    ip4: "172.16.10.1/24"
+    gw4: 172.16.10.1
+    dns4: 8.8.8.8
+  stationbus:
+    nic: enp6s0
+    ip4: "172.16.20.1/24"
+    gw4: 172.16.20.1
+    dns4: 8.8.8.8
+  processbus:
+    nic: "ens2f0"
 
 ssc600_ptp:
   status_dir: /home/libvirt-local/ptp/

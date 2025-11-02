@@ -12,3 +12,5 @@ disk_size: 128
 admin_user: admin
 organization: redhat
 
+# Software directory
+software_dir: /home/software

@@ -19,7 +19,7 @@ Environment=RT_CACHE={{ rt_config.rt_cache }}
 # CPU core for the process bus(es)
 Environment=CPUMASK="{{ rt_config.cpumask }}"
 # Process bus interface(s)
-Environment=NICS="{{ rt_config.nic }}"
+Environment=NICS="{{ networking.processbus.nic }}"
 
 [Install]
 WantedBy=multi-user.target

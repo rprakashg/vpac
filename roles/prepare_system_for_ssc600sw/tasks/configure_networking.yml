@@ -1,0 +1,37 @@
+---
+# This task setups up networking for the SSC600 SW 
+# TODO: Infrastructure bus network setup
+# Re-used from https://github.com/kwozyman/vpac
+- name: Create station bridge
+  community.general.nmcli:
+    conn_name: sb-network-bridge
+    state: present
+    type: bridge
+    ifname: sb-nic
+    ip4:
+    - "{{ networking.stationbus.ip4 }}"
+    gw4: "{{ networking.stationbus.gw4 }}"
+    dns4: "{{ networking.stationbus.dns4 }}"
+    autoconnect: true
+
+- name: Create station bridge nic
+  community.general.nmcli:
+    conn_name: sb-network-ext
+    state: present
+    type: ethernet
+    slave_type: bridge
+    master: sb-nic
+    ifname: "{{ networking.stationbus.nic }}"
+    autoconnect: true
+
+- name: Bring down the station physical nic
+  community.general.nmcli:
+    conn_name: "{{ networking.stationbus.nic }}"
+    state: present
+    autoconnect: false
+
+- name: Bring down the process bus physical nic
+  community.general.nmcli:
+    conn_name: "{{ networking.processbus.nic }}"
+    state: present
+    autoconnect: false

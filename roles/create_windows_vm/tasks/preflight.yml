@@ -10,7 +10,7 @@
 
 - name: Check windows 11 pro iso image exists on the virtualization host
   ansible.builtin.stat:
-    path: "/var/lib/libvirt/images/{{ windows_iso }}"
+    path: "{{ software_dir }}/{{ windows_iso }}"
   register: file_stat
 
 - name: Check if file exists
