@@ -44,6 +44,7 @@ dependencies:
   ansible.windows: ">=3.2.0"
   fedora.linux_system_roles: ">=1.108.6"
   community.general: ">=11.4.0"
+  community.libvirt: ">=2.0.0"
 
 # The URL of the originating SCM repository
 repository: http://github.com/rprakashg/vpac

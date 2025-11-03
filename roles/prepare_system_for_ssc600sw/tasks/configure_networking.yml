@@ -2,7 +2,7 @@
 # This task setups up networking for the SSC600 SW 
 # TODO: Infrastructure bus network setup
 # Re-used from https://github.com/kwozyman/vpac
-- name: Create station bridge
+- name: Create station bus bridge
   community.general.nmcli:
     conn_name: sb-network-bridge
     state: present
@@ -14,7 +14,7 @@
     dns4: "{{ networking.stationbus.dns4 }}"
     autoconnect: true
 
-- name: Create station bridge nic
+- name: Create station bus nic
   community.general.nmcli:
     conn_name: sb-network-ext
     state: present

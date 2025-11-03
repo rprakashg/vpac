@@ -8,4 +8,11 @@ ssc600_vm:
   core2: 13
   core3: 12
   core_qemu: 16-17
-  pb_nic: ""
+  pb_nic: "{{ networking.processbus.nic }}"
+
+ptp:
+  status_dir: /home/libvirt-local/ptp/
+
+ssc600_bundle:
+  path: /home/software
+  extracted_path: "{{ path }}/abb"
