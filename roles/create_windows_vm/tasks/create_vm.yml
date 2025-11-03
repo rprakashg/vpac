@@ -2,24 +2,17 @@
 # This task creates windows virtual machine on virtualization host
 - name: Start
   ansible.builtin.debug:
-    msg: "Starting create windows virtual machine"
+    msg: "Starting create windows virtual machine with qcow2 disk image"
 
-- name: Create virtual disk
-  ansible.builtin.shell: |
-    qemu-img create -f qcow2 -o preallocation=metadata,lazy_refcounts=on {{ vm_name }}.qcow2 {{ disk_size }}G
-  args:
-    chdir: "/var/lib/libvirt/images"
-    creates: "{{ vm_name }}.qcow2"
-
-- name: Install windows 11 unattended
+- name: Create the windows 11 vm
   ansible.builtin.command: |
     virt-install --connect qemu:///system \
       --name {{ vm_name }} \
       --memory {{ vm_memory }} \
       --vcpus {{ vm_vcpus }} \
-      --disk path=/var/lib/libvirt/images/{{ vm_name }}.qcow2,bus=virtio \
+      --disk path={{ vm_root_dir }}/{{ vm_name }}/{{ vm_name }}_disk.qcow2,bus=virtio \
       --cdrom /var/lib/libvirt/images/{{ windows_iso }} \
-      --disk path=/var/lib/libvirt/images/autounattend.iso,device=cdrom \
+      --disk path={{ software_dir }}/virtio-win-0.1.285.iso,device=cdrom \
       --os-variant win11 \
       --network network=default,model=virtio \
       --boot cdrom,hd,menu=off \
@@ -29,7 +22,7 @@
   poll: 0
   register: install_task
 
-- name: Wait for install task to complete
+- name: Wait for virt install to complete
   ansible.builtin.async_status:
     jid: "{{ install_task.ansible_job_id }}"
   register: install_result

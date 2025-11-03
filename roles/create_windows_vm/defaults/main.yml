@@ -1,12 +1,13 @@
 ---
 # defaults file for ./roles/create_windows_vm
 # Virtual machine default
-vm_name: win11
+vm_name: winhmi
 vm_memory: 16000
 vm_vcpus: 4
 
-# Storage defaults
-disk_size: 128
+# disk image, be sure to create this with windows 11 pro 
+# installed and configured copy it to host machine
+qcow2_disk_image: winhmi_disk.qcow2
 
 # User defaults
 admin_user: admin
@@ -14,3 +15,6 @@ organization: redhat
 
 # Software directory
 software_dir: /home/software
+
+# Root directory for Virtual machine images 
+vm_root_dir: /vms

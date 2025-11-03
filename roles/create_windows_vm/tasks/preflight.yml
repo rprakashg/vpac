@@ -10,10 +10,10 @@
 
 - name: Check windows 11 pro iso image exists on the virtualization host
   ansible.builtin.stat:
-    path: "{{ software_dir }}/{{ windows_iso }}"
+    path: "{{ vm_root_dir }}/{{ vm_name }}/{{ vm_name }}_disk.qcow2"
   register: file_stat
 
 - name: Check if file exists
   ansible.builtin.fail:
-    msg: "Pre-requisite not met: Cannot find {{ windows_iso }} in /var/lib/libvirt/images/ directory. Please download from microsoft software downloads."
+    msg: "Pre-requisite not met: Cannot find disk image in {{ vm_root_dir }}/{{ vm_namne }} directory."
   when: not file_stat.stat.exists
