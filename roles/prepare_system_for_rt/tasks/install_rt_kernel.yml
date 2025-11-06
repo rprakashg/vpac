@@ -22,7 +22,12 @@
     state: present
   vars:
     packages:
+    - kernel-rt
+    - kernel-rt-kvm
     - tuned-profiles-nfv-host
+    - realtime-tests
+    - dnf-plugins-core
+    - python3-dnf-plugin-versionlock
 
 - name: Set default RT as default kernel
   ansible.builtin.shell: grubby --set-default-index 0
