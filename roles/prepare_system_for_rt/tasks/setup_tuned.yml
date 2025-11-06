@@ -3,7 +3,7 @@
 # Reused from https://github.com/kwozyman/vpac
 - name: Setup tuned
   ansible.builtin.include_role:
-    name: redhat.rhel_system_roles.tuned
+    name: fedora.linux_system_roles.tuned
   vars:
     profile: "{{ tuned.profile }}"
 
