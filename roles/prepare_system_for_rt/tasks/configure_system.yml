@@ -58,5 +58,5 @@
     timesync_ptp_domains:
     - number: 0
       interfaces:
-      - "{{ pb_nic }}"
+      - "{{ networking.processbus.nic }}"
       transport: L2
