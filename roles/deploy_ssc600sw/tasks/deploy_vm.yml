@@ -24,7 +24,7 @@
     dest: "{{ ssc600_vm.path }}/{{ ssc600_vm.name }}.xml"
     owner: root
     group: root
-    mode: u=rw,g=r,0=r
+    mode: u=rw,g=r,o=r
 
 - name: Write the virtual network xml template
   ansible.builtin.template:
@@ -40,7 +40,7 @@
     dest: "{{ ssc600_vm.path }}/{{ ssc600_vm.name }}.img"
     owner: root
     group: root
-    mode: u=rw,g=r,0=r
+    mode: u=rw,g=r,o=r
     remote_src: true
 
 - name: Ensure libvirt directory exists
