@@ -17,7 +17,7 @@
 
 - name: Setup isolated cores for virtual host
   ansible.builtin.template:
-    src: realtime-variable.conf.j2
+    src: realtime-variables.conf.j2
     dest: /etc/tuned/realtime-virtual-host-variables.conf
     owner: root
     group: root
