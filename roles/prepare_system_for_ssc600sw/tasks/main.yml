@@ -1,8 +1,8 @@
 ---
 # tasks file for ./roles/prepare_system_for_ssc600sw
-- name: Configure networking
-  become: yes
-  ansible.builtin.import_tasks: configure_networking.yml
+#- name: Configure networking
+#  become: yes
+#  ansible.builtin.import_tasks: configure_networking.yml
   
 - name: Download and extract SSC600 SW bundle
   become: yes
