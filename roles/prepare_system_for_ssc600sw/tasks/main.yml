@@ -8,9 +8,9 @@
 #  become: yes
 #  ansible.builtin.import_tasks: download_extract_ssc600_bundle.yml
 
-- name: Perform host startup configurations
-  become: yes
-  ansible.builtin.import_tasks: startup_service.yml
+#- name: Perform host startup configurations
+#  become: yes
+#  ansible.builtin.import_tasks: startup_service.yml
 
 - name: Configure PTP
   become: yes

@@ -30,7 +30,8 @@
 - name: Ensure the [ptp4l] section has the correct options value for autodetection
   ansible.builtin.lineinfile:
     path: /etc/timemaster.conf
-    regexp: "^options {{ ssc600_ptp.ptp4l_options }}"
+    regexp: "^options"
+    line: "^options {{ ssc600_ptp.ptp4l_options }}"
     insertafter: '^\[ptp4l\]$'
   register: timemaster_config
 
