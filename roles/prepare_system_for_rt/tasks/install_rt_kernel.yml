@@ -11,17 +11,11 @@
     - rhel-9-for-x86_64-rt-rpms
     - rhel-9-for-x86_64-nfv-rpms
 
-- name: Perform a GroupInstall of RT packages
+- name: Install Kernel RT
   ansible.builtin.dnf:
-    name: "@RT"
+    name: "{{ item }}"
     state: present
-
-- name: Install additional packages
-  ansible.builtin.dnf:
-    name: "{{ packages }}"
-    state: present
-  vars:
-    packages:
+  with_items:
     - kernel-rt
     - kernel-rt-kvm
     - tuned-profiles-nfv-host
@@ -47,16 +41,4 @@
     state: absent
 
 - name: Reboot host machine
-  block:
-  - name: Rebooting server
-    ansible.builtin.reboot:
-      msg: "Reboot initiated by Ansible"
-      connect_timeout: 5
-      reboot_timeout: 300
-      pre_reboot_delay: 0
-      post_reboot_delay: 30
-      test_command: uptime
-  - name: Pinging the host
-    ansible.builtin.ping:
-  - debug:
-      msg: "Finished rebooting host machine"
+  ansible.builtin.import_tasks: reboot_host.yml

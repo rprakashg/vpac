@@ -1,5 +1,5 @@
 [Unit]
-Description=Runs SSC600 related startup actions on the host
+Description=Runs SSC600 related startup actions
 After=network.target
 
 [Service]
@@ -7,6 +7,7 @@ Type=oneshot
 RemainAfterExit=true
 ExecStart=/usr/sbin/ssc600-setup.sh
 StandardOutput=journal
+#User=root
 
 # Override the below using `systemctl edit ssc600-startup.service`
 # CPU cores to use for host system

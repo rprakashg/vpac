@@ -1,6 +1,5 @@
 ---
 # defaults file for ./roles/prepare_system_for_rt
-profile: realtime-virtual-host
-
 tuned:
+  profile: realtime-virtual-host
   rt_cores: 11-21

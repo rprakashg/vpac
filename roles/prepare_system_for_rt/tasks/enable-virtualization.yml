@@ -1,0 +1,17 @@
+---
+# this task enables virtualization on the host
+# Reused from https://github.com/kwozyman/vpac
+- name: Installing helpful packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libvirt-daemon
+    - qemu-kvm
+    - libvirt-client-qemu
+
+- name: Enable service
+  ansible.builtin.service:
+    name: libvirtd
+    enabled: true
+    state: started

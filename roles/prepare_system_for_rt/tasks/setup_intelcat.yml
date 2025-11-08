@@ -8,7 +8,7 @@
 
 - name: Setup resctrl mount
   ansible.builtin.template:
-    src: 'sys-fs-resctrl.mount.j2'
+    src: 'sys-fs-resctrl.mount'
     dest: /etc/systemd/system/sys-fs-resctrl.mount
     owner: root
     group: root
