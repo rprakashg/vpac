@@ -1,16 +1,15 @@
 ---
 # reused from https://github.com/kwozyman/vpac
-- name: Ensure virt rpm packages exist
+- name: Install libvirt
   ansible.builtin.package:
-    name: "{{ packages }}"
+    name: "{{ item }}"
     state: present
-  vars:
-    packages:
+  with_items:
     - libvirt
     - virt-install
     - virt-viewer
 
-- name: Ensure vm path exists
+- name: Ensure libvirt directory exists
   ansible.builtin.file:
     path: "{{ ssc600_vm.path }}"
     state: directory
@@ -18,7 +17,7 @@
     group: root
     mode: u=rwX,g=rX,o=rX
 
-- name: Write the libvirt xml template
+- name: Write libvirt XML template
   ansible.builtin.template:
     src: libvirt-domain.xml.j2
     dest: "{{ ssc600_vm.path }}/{{ ssc600_vm.name }}.xml"
@@ -26,15 +25,15 @@
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Write the virtual network xml template
+- name: Write virtual network XML template
   ansible.builtin.template:
     src: libvirt-network.xml.j2
-    dest: "{{ ssc600_vm.path }}/station-bus-vnet.xml"
+    dest: "{{ ssc600_vm.path }}/station-bus.xml"
     owner: root
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Copy ABB disk image
+- name: Copy ABB clean disk
   ansible.builtin.copy:
     src: "{{ ssc600_bundle.extracted_path }}/virtual_products/ssc600_disk.img"
     dest: "{{ ssc600_vm.path }}/{{ ssc600_vm.name }}.img"
@@ -53,27 +52,27 @@
 
 - name: Setup qemu hook
   ansible.builtin.template:
-    src: qemu.hook.j2
+    src: qemu.hook
     dest: /etc/libvirt/hooks/qemu
     owner: root
     group: root
     mode: u=rwx,g=rx,o=rx
 
-- name: Make sure libvirtd is up
+- name: Start libvirt service
   ansible.builtin.service:
     name: libvirtd
     state: restarted
     enabled: true
 
-- name: Setup station bus virtual network
+- name: Setup virt network station-bus
   community.libvirt.virt_net:
     command: define
-    name: station-bus-vnet
-    xml: "{{ lookup('template', 'libvirt-network.xml.j2') }}"
+    name: station-bus
+    xml: '{{ lookup("template", "libvirt-network.xml.j2") }}'
     autostart: true
 
-- name: Setup libvirt domain
+- name: Define virt domain
   community.libvirt.virt:
     command: define
-    xml: "{{ lookup('template', 'libvirt-domain.xml.j2')}}"
+    xml: "{{ lookup('template', 'libvirt-domain.xml.j2') }}"
     autostart: true
