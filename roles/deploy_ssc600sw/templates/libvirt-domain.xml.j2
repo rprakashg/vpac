@@ -77,7 +77,7 @@
       <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x0"/>
     </interface>
     <interface type='direct' trustGuestRxFilters='yes'>
-      <source dev='{{ ssc600_vm.rt_nic }}' mode='vepa'/>
+      <source dev='{{ ssc600_vm.pb_nic }}' mode='vepa'/>
       <target dev='macvtap0'/>
       <model type='virtio'/>
       <alias name='net1'/>
