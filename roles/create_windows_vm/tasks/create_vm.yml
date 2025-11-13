@@ -4,6 +4,8 @@
   ansible.builtin.debug:
     msg: "Starting create windows virtual machine with qcow2 disk image"
 
+- name: Create the disk image
+
 - name: Create the windows 11 vm
   ansible.builtin.command: |
     virt-install --connect qemu:///system \
@@ -11,12 +13,12 @@
       --memory {{ vm_memory }} \
       --vcpus {{ vm_vcpus }} \
       --disk path={{ vm_root_dir }}/{{ vm_name }}/{{ vm_name }}_disk.qcow2,bus=virtio \
-      --cdrom /var/lib/libvirt/images/{{ windows_iso }} \
+      --disk path={{ software_dir }}/{{ windows_iso }},device=cdrom,boot.order=1 \
       --disk path={{ software_dir }}/virtio-win-0.1.285.iso,device=cdrom \
       --os-variant win11 \
       --network network=default,model=virtio \
       --boot cdrom,hd,menu=off \
-      --graphics none \
+      --graphics vnc \
       --noautoconsole
   async: "{{ wait }}"
   poll: 0
