@@ -40,8 +40,8 @@ Dependencies
 
 Following are the list of roles that are being leveraged in this role and need to make sure they are installed before.
 
-* community.general.nmcli
-* community.general.rhsm_repository
+* [community.general.nmcli](https://galaxy.ansible.com/ui/repo/published/community/general/content/module/nmcli/)
+* [community.general.rhsm_repository](https://galaxy.ansible.com/ui/repo/published/community/general/content/module/rhsm_repository/)
 
 
 Example Playbook

@@ -28,10 +28,10 @@ Dependencies
 ------------
 Following are the dependencies for this role.
 
-* linux-system-roles.bootloader
-* linux-system-roles.kernel_settings
-* linux-system-roles.timesync
-* linux-system-roles.tuned
+* [linux-system-roles.bootloader](https://galaxy.ansible.com/ui/standalone/roles/linux-system-roles/bootloader/)
+* [linux-system-roles.kernel_settings](https://galaxy.ansible.com/ui/standalone/roles/linux-system-roles/kernel_settings/)
+* [linux-system-roles.timesync](https://galaxy.ansible.com/ui/standalone/roles/linux-system-roles/timesync)
+* [linux-system-roles.tuned](https://galaxy.ansible.com/ui/standalone/roles/linux-system-roles/tuned)
 
 
 Example Playbook
