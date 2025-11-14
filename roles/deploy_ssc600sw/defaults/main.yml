@@ -15,4 +15,4 @@ ptp:
 
 ssc600_bundle:
   path: /home/software
-  extracted_path: "{{ path }}/abb"
+  extracted_path: /home/software/abb

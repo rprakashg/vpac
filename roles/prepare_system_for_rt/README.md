@@ -1,31 +1,55 @@
-Role Name
+prepare_system_for_rt
 =========
 
-A brief description of the role goes here.
+This role configures the virtualization hosts for deploying realtime workloads. 
+* Registers the system with Red Hat if not already registered
+* Leverages linux system roles to configure bootloader, kernel settings and timesync.
+* Configures Intel Cache Allocation
+* Install and Configure real time kernel
+* Enables virtualization capabilities.
+* Configures performance and power profiles with tuned
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None
 
 Role Variables
 --------------
+Below are settable variables for this role. 
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Variable Name | Purpose |
+| ------------- | ------- |
+| tuned.profile | Tuned profile name |
+| tuned.rt_cores | Dedicated cores for realtime workload |
+
 
 Dependencies
 ------------
+Following are the dependencies for this role.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+* linux-system-roles.bootloader
+* linux-system-roles.kernel_settings
+* linux-system-roles.timesync
+* linux-system-roles.tuned
+
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Including an example of how to use this role (for instance, with variables passed in as parameters):
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- name: Import role
+  ansible.builtin.import_role:
+    name: rprakashg.vpac.prepare_system_for_rt
+  vars:
+    tuned:
+      profile: realtime-virtual-host
+      rt_cores: 11-21
+```
+
+Full example playbook can be found [here](../../playbooks/prepare_system_for_rt.yml)
 
 License
 -------
