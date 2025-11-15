@@ -1,0 +1,27 @@
+%pre --log=/var/log/anaconda/pre-install.log --erroronfail
+echo "In pre install stage"
+%end
+
+{% if builder_kickstart_options | length > 0 %}
+{% for option in builder_kickstart_options %}
+{{ option }}
+{% endfor %}
+{% endif %}
+
+# setting root password
+rootpw --iscrypted {{ root_password | password_hash('sha512')}}
+
+%post --log=/var/log/anaconda/post-install.log --erroronfail
+# Make NoCloud datasource directory
+mkdir -p /mnt/sysroot/var/lib/cloud/seed/nocloud/
+
+# Copy cloud-init files from ISO
+cp /var/install/repo/user-data /mnt/sysroot/var/lib/cloud/seed/nocloud/
+cp /var/install/repo/meta-data /mnt/sysroot/var/lib/cloud/seed/nocloud/
+
+# Enable cloud-init services
+systemctl enable cloud-init
+
+echo "anaconda post install steps completed successfully"
+
+%end

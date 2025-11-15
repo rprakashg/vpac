@@ -1,0 +1,24 @@
+---
+# This task downloads compose job artifact from imagebuilder host
+- name: Create a temp dir
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: "{{ builder_blueprint_name }}"
+  register: tempdir_result
+
+- name: Set artifact dir
+  ansible.builtin.set_fact:
+    artifact_dir: "{{ tempdir_result.path }}"
+
+- name: Set artifact path in fact
+  ansible.builtin.set_fact:
+    artifact_file: "{{ artifact_dir }}/{{ builder_blueprint_name }}_{{ blueprint_version }}.iso"
+    artifact_file_with_ks: "{{ artifact_dir }}/{{ builder_blueprint_name }}_{{ blueprint_version }}-ks.iso"
+
+- name: Download artifact
+  ansible.builtin.shell: |
+    composer-cli compose image {{ job_id }} --filename {{ artifact_file }}
+
+- name: Debug
+  ansible.builtin.debug:
+    msg: "Download ISO from: {{ artifact_file }}"
