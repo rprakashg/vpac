@@ -17,7 +17,7 @@
 
 - name: Download artifact
   ansible.builtin.shell: |
-    composer-cli compose image {{ job_id }} --filename {{ artifact_file }}
+    composer-cli compose image {{ compose_job_id }} --filename {{ artifact_file }}
 
 - name: Debug
   ansible.builtin.debug:
