@@ -5,6 +5,21 @@
   ansible.builtin.debug:
     msg: "Starting building autounattend.iso"
 
+- name: Create a raw disk for autounattend file
+  ansible.builtin.shell: |
+    qemu img create -f raw {{ libvirt_images_dir }}/autounattend.disk.img 10M
+  creates:
+  - "{{ libvirt_images_dir }}/autounattend.disk.img"
+
+- name: Create a folder to mount the disk
+  ansible.builtin.file:
+    path: /mnt/autounattend
+    state: directory
+
+- name: Mount the disk
+  ansible.builtin.shell: |
+    mount -o loop {{ software_dir }}/autounattend.disk.img /mnt/autounattend 
+  
 - name: Create a temp directory
   ansible.builtin.tempfile:
     suffix: auto
@@ -20,13 +35,14 @@
     src: 'autounattend.xml.j2'
     dest: "{{ outdir }}/autounattend.xml"
 
-- name: Make iso
-  ansible.builtin.shell: |
-    mkisofs -o {{ outdir }}/autounattend.iso -V "AUTOUNATTEND" {{ outdir }}/autounattend.xml
+- name: Copy the autounattend to destination
+  ansible.builtin.copy:
+    src: "{{ outdir }}/autounattend.xml"
+    destination: /mnt/autounattend
 
-- name: Move the generated iso into /lib
-  ansible.builtin.command: |
-    mv {{ outdir }}/autounattend.iso /var/lib/libvirt/images/autounattend.iso
+- name: Unmount the disk
+  ansible.builtin.shell: |
+    umount /mnt/autounattend
 
 - name: End
   ansible.builtin.debug:
