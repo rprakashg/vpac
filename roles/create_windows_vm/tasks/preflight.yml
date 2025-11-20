@@ -8,12 +8,12 @@
     packages:
     - mkisofs
 
-- name: Check windows 11 pro iso image exists on the virtualization host
+- name: Check windows 11 pro install iso image exists on the virtualization host
   ansible.builtin.stat:
-    path: "{{ vm_root_dir }}/{{ vm_name }}/{{ vm_name }}_disk.qcow2"
+    path: "{{ software_dir }}/{{ windows_iso }}"
   register: file_stat
 
 - name: Check if file exists
   ansible.builtin.fail:
-    msg: "Pre-requisite not met: Cannot find disk image in {{ vm_root_dir }}/{{ vm_namne }} directory."
+    msg: "Pre-requisite not met: Cannot find windows ISO on host, please dowonload and copy it to {{ software_dir }}"
   when: not file_stat.stat.exists
