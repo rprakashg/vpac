@@ -16,7 +16,7 @@
 
 - name: Mount the disk
   ansible.builtin.shell: |
-    mount -o loop {{ software_dir }}/autounattend.disk.img /mnt/autounattend 
+    mount -o loop {{ libvirt_images_dir }}/autounattend.disk.img /mnt/autounattend 
   
 - name: Create a temp directory
   ansible.builtin.tempfile:
