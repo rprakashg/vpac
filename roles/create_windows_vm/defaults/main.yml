@@ -18,4 +18,4 @@ organization: redhat
 software_dir: /home/software
 
 # libvirt images directory
-libvirt_images_dir: /vms 
+libvirt_images_dir: /vms

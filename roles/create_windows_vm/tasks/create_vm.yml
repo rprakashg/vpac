@@ -27,7 +27,6 @@
       --disk path={{ libvirt_images_dir }}/{{ vm_name }}/{{ qcow2_disk_image }},bus=virtio \
       --disk path={{ software_dir }}/{{ windows_iso }},device=cdrom,boot.order=1 \
       --disk path={{ software_dir }}/virtio-win-0.1.285.iso,device=cdrom \
-      --disk path={{ libvirt_images_dir }}/autounattend.disk.img,device=cdrom \
       --tpm backend.type=emulator,backend.version=2.0,mode=tpm-crb \
       --check all=on
   async: "{{ wait }}"
