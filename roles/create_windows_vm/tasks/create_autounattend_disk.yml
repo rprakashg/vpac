@@ -7,7 +7,7 @@
 
 - name: Create a raw disk for autounattend file
   ansible.builtin.shell: |
-    qemu img create -f raw {{ libvirt_images_dir }}/autounattend.disk.img 10M
+    qemu-img create -f raw {{ libvirt_images_dir }}/autounattend.disk.img 10M
 
 - name: Create a folder to mount the disk
   ansible.builtin.file:
