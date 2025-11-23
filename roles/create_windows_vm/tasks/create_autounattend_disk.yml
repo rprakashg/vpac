@@ -23,6 +23,8 @@
 - name: Create a raw disk image for windows setup to discover autounattend xml file
   ansible.builtin.shell: |
     qemu-img create -f raw {{ libvirt_images_dir }}/autounattend.img 64M
+  args:
+    creates: "{{ libvirt_images_dir }}/autounattend.img"
 
 - name: Format the autounattend disk as FAT32
   block:
