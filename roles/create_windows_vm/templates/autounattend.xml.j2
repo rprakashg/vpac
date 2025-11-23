@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
   <settings pass="windowsPE">
-    <component name="Microsoft-Windows-Setup" processorArchitecture="amd64"
+    <component name="Microsoft-Windows-Setup" processorArchitecture="x86"
                publicKeyToken="31bf3856ad364e35" language="neutral"
                versionScope="nonSxS">
+
+      <!-- WINDOWS EDITION AND CHANNEL -->
+      <EditionID>Professional</EditionID>
+      <Channel>Retail</Channel>
+
       <ImageInstall>
         <OSImage>
           <InstallFrom>
@@ -46,6 +51,36 @@
         </Disk>
         <WillShowUI>OnError</WillShowUI>
       </DiskConfiguration>
+
+      <!-- SKIPPING CHECKS -->
+      <RunSynchronous>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>1</Order>
+          <Description>Order 1-6: Skip Windows 11 Hardware Requirement Checks</Description>
+          <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>2</Order>
+          <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassSecureBootCheck /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>3</Order>
+          <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassStorageCheck /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>4</Order>
+          <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassCPUCheck /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>5</Order>
+          <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassRAMCheck /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>6</Order>
+          <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassDiskCheck /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+      </RunSynchronous>
+      
     </component>
   </settings>
 
@@ -53,7 +88,7 @@
   <settings pass="specialize">
     <!-- Computer Name -->
     <component name="Microsoft-Windows-Shell-Setup"
-               processorArchitecture="amd64"
+               processorArchitecture="x86"
                publicKeyToken="31bf3856ad364e35"
                language="neutral"
                versionScope="nonSxS">
@@ -62,7 +97,7 @@
 
     <!-- STATIC NETWORK CONFIGURATION -->  
     <component name="Microsoft-Windows-TCPIP"
-              processorArchitecture="amd64"
+              processorArchitecture="x86"
               publicKeyToken="31bf3856ad364e35"
               language="neutral"
               versionScope="nonSxS">
@@ -105,7 +140,7 @@
   <settings pass="oobeSystem">
     <!-- LOCALE SETTINGS -->
     <component name="Microsoft-Windows-International-Core"
-               processorArchitecture="amd64"
+               processorArchitecture="x86"
                publicKeyToken="31bf3856ad364e35"
                language="neutral"
                versionScope="nonSxS">
@@ -115,11 +150,14 @@
       <UserLocale>{{ locale_settings.user }}</UserLocale>
     </component>
 
-    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64"
+    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="x86"
                publicKeyToken="31bf3856ad364e35" language="neutral"
                versionScope="nonSxS">
       <OOBE>
         <HideEULAPage>true</HideEULAPage>
+        <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
         <NetworkLocation>Work</NetworkLocation>
         <ProtectYourPC>3</ProtectYourPC>
         <SkipMachineOOBE>true</SkipMachineOOBE>

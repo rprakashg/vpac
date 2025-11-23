@@ -2,7 +2,6 @@
 # vars file for ./roles/create_windows_vm
 windows_iso: Win11_25H2_English_x64.iso
 windows_version: 11
-windows_license_key: ""
 
 virt_io_download_link: https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
 
