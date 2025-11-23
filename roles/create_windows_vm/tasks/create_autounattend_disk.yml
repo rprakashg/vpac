@@ -35,7 +35,7 @@
     register: find_loop_device_result
   - name: Set device in fact
     ansible.builtin.set_fact:
-      device_name: "{{ find_loop_device_result.output.split(':')[0] }}"
+      device_name: "{{ find_loop_device_result.stdout.split(':')[0] }}"
   
 - name: Create a FAT32 filesystem
   ansible.builtin.shell: |
