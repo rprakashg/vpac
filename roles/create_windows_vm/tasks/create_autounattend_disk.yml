@@ -3,7 +3,7 @@
 # of windows 11
 - name: Start
   ansible.builtin.debug:
-    msg: "Starting building autounattend floppy disk image"
+    msg: "Starting building autounattend disk image"
 
 - name: Creating windows answer file
   block:

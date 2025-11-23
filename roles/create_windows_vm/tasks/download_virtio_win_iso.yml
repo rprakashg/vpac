@@ -6,5 +6,3 @@
     url: "{{ virt_io_download_link }}"
     dest: "{{ software_dir }}"
     mode: "0644"
-  args:
-    creates: "{{ software_dir }}/virtio-win-0.1.285.iso"
