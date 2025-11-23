@@ -11,7 +11,7 @@
 
 - name: Create the disk image
   ansible.builtin.shell: |
-    qemu-img create -f qcow2 {{ libvirt_images_dir }}/{{ vm_name}}/{{ qcow2_disk_image }} {{ disk_size }}
+    qemu-img create -f qcow2 {{ libvirt_images_dir }}/{{ vm_name}}/{{ qcow2_disk_image }} {{ disk_size }}G
 
 - name: Create the windows 11 vm
   ansible.builtin.command: |

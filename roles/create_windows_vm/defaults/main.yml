@@ -8,7 +8,7 @@ vm_vcpus: 4
 # disk image, be sure to create this with windows 11 pro 
 # installed and configured copy it to host machine
 qcow2_disk_image: winhmi_disk.qcow2
-disk_size: 128G
+disk_size: 128
 
 # User defaults
 admin_user: admin
