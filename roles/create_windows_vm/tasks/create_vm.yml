@@ -11,7 +11,7 @@
 
 - name: Create the disk image
   ansible.builtin.shell: |
-    qemu-img create -f qcow2 -o preallocation=metadata,lazy_refcounts=on {{ libvirt_images_dir }}/{{ vm_name}}/{{ qcow2_disk_image }} {{ disk_size }}
+    qemu-img create -f qcow2 {{ libvirt_images_dir }}/{{ vm_name}}/{{ qcow2_disk_image }} {{ disk_size }}
 
 - name: Create the windows 11 vm
   ansible.builtin.command: |
@@ -24,9 +24,10 @@
       --boot cdrom,hd,menu=off \
       --network network=default,model=virtio \
       --graphics vnc \
-      --disk path={{ libvirt_images_dir }}/{{ vm_name }}/{{ qcow2_disk_image }},bus=virtio \
-      --disk path={{ software_dir }}/{{ windows_iso }},device=cdrom,boot.order=1 \
+      --disk path={{ libvirt_images_dir }}/{{ vm_name }}/{{ qcow2_disk_image }},bus=virtio,boot.order=1 \
+      --disk path={{ software_dir }}/{{ windows_iso }},device=cdrom,boot.order=2 \
       --disk path={{ software_dir }}/virtio-win-0.1.285.iso,device=cdrom \
+      --disk path={{ libvirt_images_dir }}/autounattend.img,device=floppy \
       --tpm backend.type=emulator,backend.version=2.0,model=tpm-crb \
       --check all=on
   async: "{{ wait }}"

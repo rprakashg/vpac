@@ -1,23 +1,10 @@
 ---
-# This tasks creates autounattend iso file for unattended installation 
+# This tasks creates autounattend floppy disk image for unattended installation 
 # of windows 11
 - name: Start
   ansible.builtin.debug:
-    msg: "Starting building autounattend.iso"
+    msg: "Starting building autounattend floppy disk image"
 
-- name: Create a raw disk for autounattend file
-  ansible.builtin.shell: |
-    qemu-img create -f raw {{ libvirt_images_dir }}/autounattend.disk.img 10M
-
-- name: Create a folder to mount the disk
-  ansible.builtin.file:
-    path: /mnt/autounattend
-    state: directory
-
-- name: Mount the disk
-  ansible.builtin.shell: |
-    mount -o loop {{ libvirt_images_dir }}/autounattend.disk.img /mnt/autounattend 
-  
 - name: Create a temp directory
   ansible.builtin.tempfile:
     suffix: auto
@@ -33,15 +20,22 @@
     src: 'autounattend.xml.j2'
     dest: "{{ outdir }}/autounattend.xml"
 
-- name: Copy the autounattend to destination
-  ansible.builtin.copy:
-    src: "{{ outdir }}/autounattend.xml"
-    destination: /mnt/autounattend
-
-- name: Unmount the disk
+- name: Create a floppy disk image
   ansible.builtin.shell: |
-    umount /mnt/autounattend
+    dd if=/dev/zero of={{ outdir }}/autounattend.img bs=1M count=2
+
+- name: Create a new filesystem on the disk
+  ansible.builtin.shell: |
+    mkfs.vfat {{ outdir }}/autounattend.img
+
+- name: Copy the windows answerfile to the disk
+  ansible.builtin.shell: |
+    mcopy -i {{ outdir }}/autounattend.img {{ outdir }}/autounattend.xml ::
+
+- name: Move the floppy disk image to libvirt_images_dir
+  ansible.builtin.shell: |
+    mv {{ outdir }}/autounattend.img {{ libvirt_images_dir }}/autounattend.img
 
 - name: End
   ansible.builtin.debug:
-    msg: "Finished building autounattend.iso"
+    msg: "Finished building autounattend floppy disk image"

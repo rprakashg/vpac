@@ -7,6 +7,7 @@
   vars:
     packages:
     - mkisofs
+    - mtools
 
 - name: Check windows 11 pro install iso image exists on the virtualization host
   ansible.builtin.stat:

@@ -14,6 +14,18 @@ disk_size: 128G
 admin_user: admin
 organization: redhat
 
+# networking settings
+networking:
+  ip4: 172.16.20.10
+  subnetmask: 255.255.255.0
+  gw4: 172.16.20.1
+
+locale_settings:
+  input: en-US
+  system: en-US
+  uilang: en-US
+  user: en-US
+  
 # Software directory
 software_dir: /home/software
 
