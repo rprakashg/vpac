@@ -25,10 +25,10 @@
       --boot cdrom,hd,menu=off \
       --network network=default,model=virtio \
       --graphics vnc \
-      --disk path={{ libvirt_images_dir }}/{{ vm_name }}/{{ qcow2_disk_image }},bus=virtio,boot.order=2 \
+      --disk path={{ libvirt_images_dir }}/{{ vm_name }}/{{ qcow2_disk_image }},device=disk,bus=virtio,controller=0,target=0 \
       --disk path={{ software_dir }}/{{ windows_iso }},device=cdrom,bus=sata,boot.order=1 \
       --disk path={{ software_dir }}/virtio-win-0.1.285.iso,device=cdrom,bus=sata \
-      --disk path={{ libvirt_images_dir }}/autounattend.img,device=disk,bus=sata \
+      --disk path={{ libvirt_images_dir }}/autounattend.img,device=disk,bus=sata,controller=0,target=1 \
       --tpm backend.type=emulator,backend.version=2.0,model=tpm-crb \
       --check all=on \
       --noautoconsole
