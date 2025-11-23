@@ -47,7 +47,7 @@
     ansible.builtin.shell: |
       mkdir -p /mnt/autounattend
   - name: Mount the device
-    ansiblel.builtin.shell: |
+    ansible.builtin.shell: |
       mount {{ device_name }} /mnt/autounattend
 
 - name: Copy the windows autounattend.xml answer file to the disk
