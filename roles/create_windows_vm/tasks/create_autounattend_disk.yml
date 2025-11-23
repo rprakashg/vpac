@@ -29,22 +29,21 @@
   - name: First attach a loop device
     ansible.builtin.shell: |
       losetup -fP {{ libvirt_images_dir }}/autounattend.img
-  - name: Find which loop device was used
-    block:
-    - name: run losetup -a
-      ansible.builtin.shell: |
-        losetup -a 
-      register: find_loop_device_result
-    - name: Set device in fact
-      ansible.builtin.set_fact:
-        device_name: "{{ find_loop_device_result.output.split(':')[0] }}"
-  - name: Create a FAT32 filesystem
+  - name: run losetup -a
     ansible.builtin.shell: |
-      mkfs.vfat -F 32 {{ device_name }}
+      losetup -a 
+    register: find_loop_device_result
+  - name: Set device in fact
+    ansible.builtin.set_fact:
+      device_name: "{{ find_loop_device_result.output.split(':')[0] }}"
+  
+- name: Create a FAT32 filesystem
+  ansible.builtin.shell: |
+    mkfs.vfat -F 32 {{ device_name }}
 
 - name: Mount the autounattend disk
   block:
-  - name: Make an autounattend directory under /mnt
+  - name: Make an autounattend directory under mnt
     ansible.builtin.shell: |
       mkdir -p /mnt/autounattend
   - name: Mount the device
@@ -60,7 +59,7 @@
   ansible.builtin.shell: |
     umount /mnt/autounattend \ 
     && losetup -d {{ device_name }}
-    
+
 - name: End
   ansible.builtin.debug:
     msg: "Finished building autounattend floppy disk image"
