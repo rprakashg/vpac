@@ -20,16 +20,18 @@
       --memory {{ vm_memory }} \
       --vcpus {{ vm_vcpus }} \
       --cpu host-passthrough \
+      --os-type windows \
       --os-variant win11 \
       --boot cdrom,hd,menu=off \
       --network network=default,model=virtio \
       --graphics vnc \
-      --disk path={{ libvirt_images_dir }}/{{ vm_name }}/{{ qcow2_disk_image }},bus=virtio,boot.order=1 \
-      --disk path={{ software_dir }}/{{ windows_iso }},device=cdrom,boot.order=2 \
-      --disk path={{ software_dir }}/virtio-win-0.1.285.iso,device=cdrom \
-      --disk path={{ libvirt_images_dir }}/autounattend.img,device=floppy \
+      --disk path={{ libvirt_images_dir }}/{{ vm_name }}/{{ qcow2_disk_image }},bus=virtio,boot.order=2 \
+      --disk path={{ software_dir }}/{{ windows_iso }},device=cdrom,bus=sata,boot.order=1 \
+      --disk path={{ software_dir }}/virtio-win-0.1.285.iso,device=cdrom,bus=sata \
+      --disk path={{ libvirt_images_dir }}/autounattend.img,device=disk,bus=sata \
       --tpm backend.type=emulator,backend.version=2.0,model=tpm-crb \
-      --check all=on
+      --check all=on \
+      --noautoconsole
   async: "{{ wait }}"
   poll: 0
   register: install_task

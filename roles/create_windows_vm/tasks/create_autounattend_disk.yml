@@ -5,37 +5,62 @@
   ansible.builtin.debug:
     msg: "Starting building autounattend floppy disk image"
 
-- name: Create a temp directory
-  ansible.builtin.tempfile:
-    suffix: auto
-    state: directory
-  register: tempdir_result
+- name: Creating windows answer file
+  block:
+  - name: Create a temp directory
+    ansible.builtin.tempfile:
+      suffix: auto
+      state: directory
+    register: tempdir_result
+  - name: Set directory path in fact
+    ansible.builtin.set_fact:
+      outdir: "{{ tempdir_result.path }}"
+  - name: Create autounattend.xml file from the template
+    ansible.builtin.template:
+      src: 'autounattend.xml.j2'
+      dest: "{{ outdir }}/autounattend.xml"
 
-- name: Set directory path in fact
-  ansible.builtin.set_fact:
-    outdir: "{{ tempdir_result.path }}"
-
-- name: Create autounattend.xml file from the template
-  ansible.builtin.template:
-    src: 'autounattend.xml.j2'
-    dest: "{{ outdir }}/autounattend.xml"
-
-- name: Create a floppy disk image
+- name: Create a raw disk image for windows setup to discover autounattend xml file
   ansible.builtin.shell: |
-    dd if=/dev/zero of={{ outdir }}/autounattend.img bs=1M count=2
+    qemu-img create -f raw {{ libvirt_images_dir }}/autounattend.img 64M
 
-- name: Create a new filesystem on the disk
+- name: Format the autounattend disk as FAT32
+  block:
+  - name: First attach a loop device
+    ansible.builtin.shell: |
+      losetup -fP {{ libvirt_images_dir }}/autounattend.img
+  - name: Find which loop device was used
+    block:
+    - name: run losetup -a
+      ansible.builtin.shell: |
+        losetup -a 
+      register: find_loop_device_result
+    - name: Set device in fact
+      ansible.builtin.set_fact:
+        device_name: "{{ find_loop_device_result.output.split(':')[0] }}"
+  - name: Create a FAT32 filesystem
+    ansible.builtin.shell: |
+      mkfs.vfat -F 32 {{ device_name }}
+
+- name: Mount the autounattend disk
+  block:
+  - name: Make an autounattend directory under /mnt
+    ansible.builtin.shell: |
+      mkdir -p /mnt/autounattend
+  - name: Mount the device
+    ansiblel.builtin.shell: |
+      mount {{ device_name }} /mnt/autounattend
+
+- name: Copy the windows autounattend.xml answer file to the disk
   ansible.builtin.shell: |
-    mkfs.vfat {{ outdir }}/autounattend.img
+    cp {{ outdir }}/autounattend.xml /mnt/autounattend \ 
+    && sync
 
-- name: Copy the windows answerfile to the disk
+- name: Unmount and detach device
   ansible.builtin.shell: |
-    mcopy -i {{ outdir }}/autounattend.img {{ outdir }}/autounattend.xml ::
-
-- name: Move the floppy disk image to libvirt_images_dir
-  ansible.builtin.shell: |
-    mv {{ outdir }}/autounattend.img {{ libvirt_images_dir }}/autounattend.img
-
+    umount /mnt/autounattend \ 
+    && losetup -d {{ device_name }}
+    
 - name: End
   ansible.builtin.debug:
     msg: "Finished building autounattend floppy disk image"
