@@ -53,5 +53,5 @@
       -eltorito-alt-boot \
       -eltorito-platform efi \
       -b efi/microsoft/boot/efisys_noprompt.bin \
-      -o {{ software_dir }}/{{ windows_iso | basename }}-modified.iso \
+      -o {{ software_dir }}/{{ customized_windows_iso }} \
       {{ outdir }}
