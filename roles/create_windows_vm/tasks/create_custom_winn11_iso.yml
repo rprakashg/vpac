@@ -35,6 +35,7 @@
   ansible.builtin.copy:
     src: "/mnt/win11iso/"
     dest: "{{ outdir }}"
+    remote_src: yes
 
 - name: Unmount original ISO
   ansible.builtin.shell: |
