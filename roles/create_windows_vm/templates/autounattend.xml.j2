@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<unattend xmlns="urn:schemas-microsoft-com:unattend">
+<unattend xmlns="urn:schemas-microsoft-com:unattend"
+  xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State">
+  <settings pass="offlineServicing" />
   <settings pass="windowsPE">
-    <component name="Microsoft-Windows-Setup" processorArchitecture="x86"
+    <component name="Microsoft-Windows-Setup" processorArchitecture="amd64"
                publicKeyToken="31bf3856ad364e35" language="neutral"
                versionScope="nonSxS">
 
@@ -9,7 +11,7 @@
         <OSImage>
           <InstallFrom>
             <MetaData wcm:action="add">
-              <Key>{{ windows_iso }}</Key>
+              <Key>/IMAGE/NAME</Key>
               <Value>Windows {{ windows_version }} Pro</Value>
             </MetaData>
           </InstallFrom>
@@ -27,10 +29,12 @@
         <FullName>{{ admin_user }}</FullName>
         <Organization>{{ organization }}</Organization>
         <ProductKey>
-          <WillShowUI>Never</WillShowUI>
+          <WillShowUI>OnError</WillShowUI>
           <Key>{{ windows_license_key }}</Key>
         </ProductKey>
       </UserData>
+
+      <UseConfigurationSet>false</UseConfigurationSet>
 
       <!-- Disk Configuration -->
       <DiskConfiguration>
@@ -80,11 +84,13 @@
     </component>
   </settings>
 
+  <settings pass="generalize" />
+
   <!-- SPECIALIZE PHASE -->
   <settings pass="specialize">
     <!-- Computer Name -->
     <component name="Microsoft-Windows-Shell-Setup"
-               processorArchitecture="x86"
+               processorArchitecture="amd64"
                publicKeyToken="31bf3856ad364e35"
                language="neutral"
                versionScope="nonSxS">
@@ -93,7 +99,7 @@
 
     <!-- STATIC NETWORK CONFIGURATION -->  
     <component name="Microsoft-Windows-TCPIP"
-              processorArchitecture="x86"
+              processorArchitecture="amd64"
               publicKeyToken="31bf3856ad364e35"
               language="neutral"
               versionScope="nonSxS">

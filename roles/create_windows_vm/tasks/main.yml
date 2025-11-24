@@ -4,9 +4,12 @@
   become: yes
   ansible.builtin.import_tasks: preflight.yml
 
-- name: Create autounattend disk
+#- name: Create autounattend disk
+#  become: yes
+#  ansible.builtin.import_tasks: create_autounattend_disk.yml
+- name: Create a custom windows 11 ISO with answerfile for unattended installation
   become: yes
-  ansible.builtin.import_tasks: create_autounattend_disk.yml
+  ansible.builtin.import_tasks: create_custom_winn11_iso.yml
 
 - name: Download virtio win drivers
   become: yes
