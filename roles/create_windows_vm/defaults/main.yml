@@ -13,7 +13,7 @@ disk_size: 128
 # User defaults
 admin_user: admin
 organization: redhat
-windows_license_key: "00000-00000-00000-00000-00000"
+windows_license_key: "VK7JG-NPHTM-C97JM-9MPGT-3V66T"
 
 # networking settings
 networking:
@@ -22,7 +22,7 @@ networking:
   gw4: 172.16.20.1
 
 locale_settings:
-  input: en-US
+  input: 0409:00000409
   system: en-US
   uilang: en-US
   user: en-US
