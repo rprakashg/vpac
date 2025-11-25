@@ -1,0 +1,36 @@
+---
+# This task injects an autounattend.xml answerfile into original windows 11 ISO
+# and creates a custom ISO for installing windows 11 pro unattended
+- name: Start
+  ansible.builtin.debug:
+    msg: "Start: build custom ISO"
+
+- name: Creating windows answer file
+  block:
+  - name: Create a temp directory
+    ansible.builtin.tempfile:
+      suffix: auto
+      state: directory
+    register: tempdir_result
+  - name: Set directory path in fact
+    ansible.builtin.set_fact:
+      outdir: "{{ tempdir_result.path }}"
+  - name: Create autounattend.xml file from the template
+    ansible.builtin.template:
+      src: 'autounattend.xml.j2'
+      dest: "{{ outdir }}/autounattend.xml"
+
+- name: Mount the original windows ISO and copy all of it contents
+  block:
+  - name: Create a directory under Mount
+    ansible.builtin.file:
+      state: directory
+      path: /mnt/win11
+      mode: 0644
+  - name: Mount default ISO
+    ansible.builtin.shell: |
+      mount -o loop {{ software_dir }}/{{ windows_iso }} /mnt/win11
+  - name: Copy * from mnt/win11/*
+    ansible.builtin.copy:
+      
+      remote_src: yes

@@ -3,7 +3,7 @@
 # of windows 11
 - name: Start
   ansible.builtin.debug:
-    msg: "Starting building autounattend disk image"
+    msg: "Starting building autounattend iso"
 
 - name: Creating windows answer file
   block:
@@ -18,7 +18,7 @@
   - name: Create autounattend.xml file from the template
     ansible.builtin.template:
       src: 'autounattend.xml.j2'
-      dest: "{{ outdir }}/autounattend.xml"
+      dest: "{{ outdir }}/Autounattend.xml"
 
 - name: Create autounattend iso
   ansible.builtin.shell: |
