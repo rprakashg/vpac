@@ -4,9 +4,9 @@
   become: yes
   ansible.builtin.import_tasks: preflight.yml
 
-- name: Create autounattend iso
+- name: Create a custom iso with auto unattend answer file
   become: yes
-  ansible.builtin.import_tasks: create_autounattend_iso.yml
+  ansible.builtin.import_tasks: create_custom_iso.yml
 
 - name: Download virtio win drivers
   become: yes
