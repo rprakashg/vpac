@@ -10,6 +10,14 @@
   ansible.builtin.set_fact:
     artifact_dir: "{{ tempdir_result.path }}"
 
+- name: Get new blueprint version
+  ansible.builtin.shell: composer-cli --json blueprints show "{{ builder_blueprint_name }}" | jq -r ".[].body.blueprints[].version"
+  register: new_blueprint_version_result
+
+- name: Setting current blueprint version
+  ansible.builtin.set_fact:
+    blueprint_version: "{{ new_blueprint_version_result.stdout }}"
+    
 - name: Set artifact path in fact
   ansible.builtin.set_fact:
     artifact_file: "{{ artifact_dir }}/{{ builder_blueprint_name }}_{{ blueprint_version }}.iso"
