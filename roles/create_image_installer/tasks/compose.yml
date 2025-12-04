@@ -20,6 +20,9 @@
   - name: Set job id in fact
     ansible.builtin.set_fact:
       compose_job_id: "{{ compose_start_result.stdout }}"
+  - name: Debug job id
+    ansible.builtin.debug:
+      msg: "Compose job id = {{ compose_job_id }}"  
 
 - name: wait for compose to finish
   ansible.builtin.shell: |
