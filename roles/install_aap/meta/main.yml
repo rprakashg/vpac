@@ -1,7 +1,7 @@
 galaxy_info:
   author: Ram Gopinathan
-  description: This role automates building rhel base image for deploying grid platforms
-  company: Red Hat (optional)
+  description: This role is used for installing containerized AAP
+  company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -16,7 +16,7 @@ galaxy_info:
   # - CC-BY-4.0
   license: license (GPL-2.0-or-later, MIT, etc)
 
-  min_ansible_version: 2.15
+  min_ansible_version: 2.1
 
   # If this a Container Enabled role, provide the minimum Ansible Container version.
   # min_ansible_container_version:

@@ -1,11 +1,11 @@
 galaxy_info:
-  author: your name
-  description: your role description
-  company: your company (optional)
+  author: Ram Gopinathan
+  description: Create a custom iso image from a previously built image installer from blueprint with a custom anaconda kickstart for automated installation
+  company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
-  # issue_tracker_url: http://example.com/issue/tracker
+  issue_tracker_url: https://github.com/rprakashg/vpac/issues/tracker
 
   # Choose a valid license ID from https://spdx.org - some suggested licenses:
   # - BSD-3-Clause (default)
@@ -16,7 +16,7 @@ galaxy_info:
   # - CC-BY-4.0
   license: license (GPL-2.0-or-later, MIT, etc)
 
-  min_ansible_version: 2.1
+  min_ansible_version: 2.15
 
   # If this a Container Enabled role, provide the minimum Ansible Container version.
   # min_ansible_container_version:

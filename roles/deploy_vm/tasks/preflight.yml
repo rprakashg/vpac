@@ -1,0 +1,18 @@
+---
+# preflight steps
+- name: Get virtual machine info
+  community.libvirt.virt:
+    command: info
+    name: "{{ vm_name }}"
+  register: vminfo
+
+- name: Stop the vm if it exists
+  when:
+  - not vminfo.vms is none
+  community.libvirt.virt:
+    state: destroyed
+    name: "{{ vm_name }}"
+
+- name: Undefine vm
+  community.libvirt.virt:
+    command: "virsh undefine --nvram {{ vm_name }}"
