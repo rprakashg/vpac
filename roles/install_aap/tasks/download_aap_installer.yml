@@ -57,4 +57,4 @@
     src: "{{ download_dir }}/bundle.tar.gz"
     dest: "{{ install_dir }}"
     remote_src: true
-    extra-opts: ['--strip-components=1', '--show-stored-names']
+    extra_opts: ['--strip-components=1', '--show-stored-names']
