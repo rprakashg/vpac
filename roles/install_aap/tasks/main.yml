@@ -7,3 +7,7 @@
 - name: Download installer bundle
   become: yes
   ansible.builtin.import_tasks: download_aap_installer.yml
+
+- name: Install AAP
+  become: yes
+  ansible.builtin.import_tasks: install_aap.yml
