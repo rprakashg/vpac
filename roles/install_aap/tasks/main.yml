@@ -2,8 +2,8 @@
 # tasks file for ./roles/install_aap
 - name: Preflight steps
   become: yes
-  ansible.builtin.import_task: preflight.yml
+  ansible.builtin.import_tasks: preflight.yml
 
 - name: Download installer bundle
   become: yes
-  ansible.builtin.import_task: download_aap_installer.yml
+  ansible.builtin.import_tasks: download_aap_installer.yml
