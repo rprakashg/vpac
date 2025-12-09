@@ -1,6 +1,6 @@
+---
 # This task generates inventory file and extra vars file and runs
 # the containerized installer to install AAP
----
 - name: Rename the current inventory file
   ansible.builtin.shell: |
     mv {{ install_dir }}/inventory {{ install_dir }}/inventory.bak
