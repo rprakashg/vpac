@@ -31,9 +31,9 @@
       client_id: "{{ client_id }}"
       refresh_token: "{{ rh_offline_token }}"
   register: token_response
-  until: token_response is not failed
-  retries: "{{ retries }}"
-  delay: "{{ delay }}"
+  #until: token_response is not failed
+  #retries: "{{ retries }}"
+  #delay: "{{ delay }}"
 
 - name: Debug token response
   ansible.builtin.debug:
