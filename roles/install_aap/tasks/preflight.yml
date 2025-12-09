@@ -1,5 +1,5 @@
-# preflight steps
 ---
+# preflight steps
 - name: Make a directory to run AAP setup from
   ansible.builtin.file:
     state: directory
