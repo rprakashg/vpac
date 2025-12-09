@@ -46,7 +46,7 @@
       accept: application/json
       Authorization: "Bearer {{ token_response.json.access_token }}"
     dest: "{{ download_dir }}/bundle.tar.gz" 
-    checksum: "sha254: {{ aap_sha }}"
+    checksum: "sha256: {{ aap_sha }}"
   register: download_aap_bundle
   until: download_aap_bundle is not failed
   retries: "{{ retries }}"
