@@ -35,6 +35,10 @@
   retries: "{{ retries }}"
   delay: "{{ delay }}"
 
+- name: Debug token response
+  ansible.builtin.debug:
+    var: token_response
+    
 - name: Download the AAP installer
   ansible.builtin.get_url:
     url: "https://api.access.redhat.com/management/v1/images/{{ aap_sha }}/download"
