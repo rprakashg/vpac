@@ -31,14 +31,14 @@
       client_id: "{{ client_id }}"
       refresh_token: "{{ rh_offline_token }}"
   register: token_response
-  until: token_response is not failed
-  retries: "{{ retries }}"
-  delay: "{{ delay }}"
+  #until: token_response is not failed
+  #retries: "{{ retries }}"
+  #delay: "{{ delay }}"
 
 - name: Debug token response
   ansible.builtin.debug:
     var: token_response
-    
+
 - name: Download the AAP installer
   ansible.builtin.get_url:
     url: "https://api.access.redhat.com/management/v1/images/{{ aap_sha }}/download"
