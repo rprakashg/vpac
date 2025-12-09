@@ -12,6 +12,7 @@
     install_dir: "/home/{{ ansible_user }}/aap_install"
 
 - name: Install required packages
+  become: yes
   ansible.builtin.dnf:
     name: "{{ packages }}"
     state: latest
