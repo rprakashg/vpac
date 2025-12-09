@@ -21,8 +21,6 @@
     - git
     - ansible-core
     - podman
-    - podman-docker
-    - podman-compose
     - unzip
     - tar
     - rsync
