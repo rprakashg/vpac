@@ -3,13 +3,13 @@
 - name: Make a directory to run AAP setup from
   ansible.builtin.file:
     state: directory
-    path: "home/{{ ansible_user }}/aap_install"
+    path: "/home/{{ ansible_user }}/aap_install"
     mode: '0755'
     owner: "{{ ansible_user }}"
 
 - name: Set setup dir in fact
   ansible.builtin.set_fact:
-    install_dir: "home/{{ ansible_user }}/aap_install"
+    install_dir: "/home/{{ ansible_user }}/aap_install"
 
 - name: Install required packages
   ansible.builtin.dnf:
