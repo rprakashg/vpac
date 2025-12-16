@@ -1,7 +1,7 @@
-Role Name
+deploy_linux_vm
 =========
 
-A brief description of the role goes here.
+This role is used to deploy a linux virtual machine to KVM
 
 Requirements
 ------------
