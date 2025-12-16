@@ -1,5 +1,13 @@
 ---
 # preflight steps
+- name: Create a directory under libvirt images directory for VM
+  ansible.builtin.file:
+    state: directory
+    path: "{{ vm_disk_path }}"
+    owner: root
+    group: root
+    mode: '0755'
+    
 - name: Get virtual machine info
   community.libvirt.virt:
     command: info
