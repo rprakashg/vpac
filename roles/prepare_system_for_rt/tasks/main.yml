@@ -9,7 +9,7 @@
 - name: Register system if not already registered
   when: not registered.stat.exists
   become: yes
-  ansible.builtin.import_tasks: register_system.yml
+  ansible.builtin.include_role: register_system
 
 - name: Configure system using linux system roles
   become: yes

@@ -1,6 +1,6 @@
 ---
-# Task for automating system registration with redhat and update packages
-- name: Install rhc
+# tasks file for ./roles/register_system
+- name: Install packages
   ansible.builtin.dnf:
     state: latest
     name: rhc
@@ -28,6 +28,6 @@
 - name: Display results
   ansible.builtin.debug:
     var: dnf_update_result
-
+    
 - name: Rebooting host machine after updating packages
   ansible.builtin.import_tasks: reboot_host.yml    
