@@ -26,5 +26,8 @@ builder_kickstart_options:
 - network --bootproto=dhcp --activate #auto detect network
 - reboot --eject
 
-# cloudinit
-hostname: "vpac-rhel"
+# kickstart pre steps
+builder_kickstart_pre: []
+
+# kickstart post install steps
+builder_kickstart_post: []

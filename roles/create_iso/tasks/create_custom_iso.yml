@@ -1,34 +1,5 @@
 ---
-# This task creates a custom ISO with custom anaconda kickstart file 
-# and cloud init files for first boot initialization tasks 
-- name: Generate cloud-init files
-  block:
-  - name: Create a temp directory to store the ISO
-    ansible.builtin.tempfile:
-      state: directory
-      suffix: "cloudinit"
-    register: tempdir_result
-  - name: Set the directory path in fact
-    ansible.builtin.set_fact:
-      cloudinit_files: "{{ tempdir_result.path }}"
-  - name: Generate a random guid to be used as instance id in cloud-init metadata file
-    ansible.builtin.shell: |
-      uuidgen
-    register: uuidgen_result
-  - name: Set instance id in fact
-    ansible.builtin.set_fact:
-      instance_id: "{{ uuidgen_result.stdout }}"
-  - name: Generate cloud-init metadata file
-    ansible.builtin.template:
-      src: "meta-data.j2"
-      dest: "{{ cloudinit_files }}/meta-data"
-      mode: "0755"
-  - name: Generate user-data file
-    ansible.builtin.template:
-      src: "user-data.j2"
-      dest: "{{ cloudinit_files }}/user-data"
-      mode: "0755"
-      
+# This task creates a custom ISO with custom anaconda kickstart file       
 - name: Create a custom anaconda kickstart file
   block:
   - name: Create a temp directory to store the generated kickstart file
@@ -59,7 +30,7 @@
 
 - name: Inject the anaconda kickstart and cloud-init files into ISO
   ansible.builtin.command: |
-    mkksiso --add {{ cloudinit_files }}/user-data --add {{ cloudinit_files }}/meta-data --ks {{ ksfile }} {{ artifact_file }} {{ artifact_file_with_ks }}
+    mkksiso --ks {{ ksfile }} {{ artifact_file }} {{ artifact_file_with_ks }}
   register: mkksiso_result
 
 - name: Debug mkksiso result

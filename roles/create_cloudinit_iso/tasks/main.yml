@@ -1,0 +1,31 @@
+---
+# tasks file for ./roles/create_cloudinit_iso
+- name: Generate cloud-init files
+  block:
+  - name: Create a temp directory to store the ISO
+    ansible.builtin.tempfile:
+      state: directory
+      suffix: "cloudinit"
+    register: tempdir_result
+  - name: Set the directory path in fact
+    ansible.builtin.set_fact:
+      cloudinit_files: "{{ tempdir_result.path }}"
+  - name: Generate a random guid to be used as instance id in cloud-init metadata file
+    ansible.builtin.shell: |
+      uuidgen
+    register: uuidgen_result
+  - name: Set instance id in fact
+    ansible.builtin.set_fact:
+      instance_id: "{{ uuidgen_result.stdout }}"
+  - name: Generate cloud-init metadata file
+    ansible.builtin.template:
+      src: "meta-data.j2"
+      dest: "{{ cloudinit_files }}/meta-data"
+      mode: "0755"
+  - name: Generate user-data file
+    ansible.builtin.template:
+      src: "user-data.j2"
+      dest: "{{ cloudinit_files }}/user-data"
+      mode: "0755"
+      
+- name: Create cloud init iso

@@ -1,0 +1,5 @@
+---
+# defaults file for ./roles/create_cloudinit_iso
+
+# cloudinit
+hostname: "vpac-rhel"
