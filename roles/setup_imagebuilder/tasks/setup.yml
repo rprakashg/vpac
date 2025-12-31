@@ -3,9 +3,29 @@
 # Images for vpac
 - name: Run the osbuild setup_server role to configure imagebuilder host
   ansible.builtin.import_role:
-    name: infra.osbuild.setup_server
+    name: infra.osbuild.setup_server  
 - name: Update imagebuilder sources for RT and NFV packages
   block:
+  - name: Update imagebuilder sources for HA rpm packages
+    ansible.builtin.tempfile:
+      state: file
+      suffix: toml
+    register: highavailability
+  - name: Update highavailability toml file
+    ansible.builtin.copy:
+      dest: "{{ highavailability.path }}"
+      content: |
+        id = "highavailability-os"
+        name = "Highavailability OS packages"
+        type = "yum-baseurl"
+        url = "https://cdn.redhat.com/content/dist/rhel9/9/{{ ansible_architecture }}/highavailability/os/"
+        check_gpg = true
+        check_ssl = true
+        system = false
+        rhsm = true
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
   - name: Create a temp realtime-baseos.toml file
     ansible.builtin.tempfile:
       state: file
@@ -49,5 +69,6 @@
   - name: Add to imagebuilder sources
     ansible.builtin.command: "sudo composer-cli sources add {{ item }}"
     loop:
+    - "{{ highavailability.path }}"
     - "{{ realtime_baseos.path }}"
     - "{{ nfv_baseos.path }}"
