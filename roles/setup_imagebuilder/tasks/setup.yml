@@ -77,13 +77,13 @@
       content: |
         id = "epel"
         name = "Extra Packages for Enterprise Linux"
-        type = "yum-baseurl"
-        url = "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/"
+        type = "yum-metalink"
+        url = "https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=x86_64"
         check_gpg = true
         check_ssl = true
         system = false
-        rhsm = true
-        check_repogpg = true
+        rhsm = false
+        check_repogpg = false
         gpgkeys = ["https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9"]
   - name: create temp toml file for codeready
     ansible.builtin.tempfile:
