@@ -83,6 +83,8 @@
         check_ssl = true
         system = false
         rhsm = true
+        check_repogpg = true
+        gpgkeys = ["https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9"]
   - name: create temp toml file for codeready
     ansible.builtin.tempfile:
       state: file
