@@ -85,6 +85,23 @@
         rhsm = true
         check_repogpg = true
         gpgkey = "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9"
+  - name: create temp toml file for codeready
+    ansible.builtin.tempfile:
+      state: file
+      suffix: toml
+    register: codeready
+  - name: Update toml file
+    ansible.builtin.copy:
+      dest: "{{ codeready.path }}"
+      content: |
+        id = "rhel-9-crb"
+        name = "RHEL 9 CodeReady Builder"
+        type = "yum-baseurl"
+        url = "https://cdn.redhat.com/content/dist/rhel9/9/x86_64/codeready-builder/os"
+        check_gpg = true
+        check_ssl = true
+        system = false
+        rhsm = true
   - name: Add to imagebuilder sources
     ansible.builtin.command: "sudo composer-cli sources add {{ item }}"
     loop:
@@ -92,3 +109,4 @@
     - "{{ realtime_baseos.path }}"
     - "{{ nfv_baseos.path }}"
     - "{{ epel.path }}"
+    - "{{ codeready.path }}"
