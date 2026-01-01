@@ -66,9 +66,28 @@
       owner: root
       group: root
       mode: u=rw,g=r,o=r
+  - name: Create a temp toml file for epel
+    ansible.builtin.tempfile:
+      state: file
+      suffix: toml
+    register: epel
+  - name: update toml file
+    ansible.builtin.copy:
+      content: |
+        id = epel
+        name = "Extra Packages for Enterprise Linux"
+        type = "yum-baseurl"
+        baseurl = "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64"
+        check_gpg = true
+        check_ssl = true
+        system = false
+        rhsm = true
+        check_repogpg = true
+        gpgkey =["https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9"]
   - name: Add to imagebuilder sources
     ansible.builtin.command: "sudo composer-cli sources add {{ item }}"
     loop:
     - "{{ highavailability.path }}"
     - "{{ realtime_baseos.path }}"
     - "{{ nfv_baseos.path }}"
+    - "{{ epel.path }}"
