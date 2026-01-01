@@ -75,7 +75,7 @@
     ansible.builtin.copy:
       dest: "{{ epel.path }}"
       content: |
-        id = epel
+        id = "epel"
         name = "Extra Packages for Enterprise Linux"
         type = "yum-baseurl"
         baseurl = "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64"
