@@ -1,11 +1,6 @@
-{% if builder_kickstart_pre is defined and builder_kickstart_pre | length > 0%}
-%pre --log=/var/log/anaconda/pre-install.log --erroronfail
-{% for pre in builder_kickstart_pre %}
-{% if pre != "" %}
-{{ pre }}
-{% endif %}
-{% endfor %}
-echo "anaconda pre-install steps completed successfully"
+{% if builder_kickstart_pre is defined and builder_kickstart_pre | length > 0 %}
+%pre --log=/var/log/anaconda/pre-install.log --erroronfail --interpreter=/bin/bash
+{{ builder_kickstart_pre }}
 %end
 {% endif %}
 
