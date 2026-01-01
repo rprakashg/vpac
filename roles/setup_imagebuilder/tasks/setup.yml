@@ -73,6 +73,7 @@
     register: epel
   - name: update toml file
     ansible.builtin.copy:
+      dest: "{{ epel.path }}"
       content: |
         id = epel
         name = "Extra Packages for Enterprise Linux"
