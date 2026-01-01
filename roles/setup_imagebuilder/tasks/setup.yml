@@ -78,7 +78,7 @@
         id = "epel"
         name = "Extra Packages for Enterprise Linux"
         type = "yum-baseurl"
-        baseurl = "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64"
+        url = "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64"
         check_gpg = true
         check_ssl = true
         system = false
