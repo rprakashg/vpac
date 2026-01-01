@@ -78,7 +78,7 @@
         id = "epel"
         name = "Extra Packages for Enterprise Linux"
         type = "yum-baseurl"
-        url = "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64"
+        url = "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/"
         check_gpg = true
         check_ssl = true
         system = false
@@ -97,7 +97,7 @@
         id = "rhel-9-crb"
         name = "RHEL 9 CodeReady Builder"
         type = "yum-baseurl"
-        url = "https://cdn.redhat.com/content/dist/rhel9/9/x86_64/codeready-builder/os"
+        url = "https://cdn.redhat.com/content/dist/rhel9/9/x86_64/codeready-builder/os/"
         check_gpg = true
         check_ssl = true
         system = false
