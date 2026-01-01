@@ -28,7 +28,7 @@
     ansible.builtin.command: "ksvalidator {{ ksfile }}"
     changed_when: false
 
-- name: Inject the anaconda kickstart and cloud-init files into ISO
+- name: Inject the custom anaconda kickstart into ISO
   ansible.builtin.command: |
     mkksiso --ks {{ ksfile }} {{ artifact_file }} {{ artifact_file_with_ks }}
   register: mkksiso_result
