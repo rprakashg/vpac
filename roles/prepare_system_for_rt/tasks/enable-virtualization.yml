@@ -8,7 +8,7 @@
   with_items:
     - qemu-kvm
     - libvirt
-    - virt-Install
+    - virt-install
     - virt-viewer
 
 - name: Run virt-host-validate
