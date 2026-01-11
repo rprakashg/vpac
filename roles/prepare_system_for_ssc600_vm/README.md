@@ -1,4 +1,4 @@
-prepare_system_for_ssc600sw
+prepare_system_for_ssc600_vm
 =========
 
 This role configures the system for deploying SSC600 SW virtual machines. Performs all necessary steps on the host prior to deploying virtual machine using [role](../deploy_ssc600sw/). Role requires SSC600 SW cab file to be downloaded and copied over to the virtualization host.
