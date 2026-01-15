@@ -1,0 +1,40 @@
+---
+# This task install grafana loki log aggregation system
+- name: Create a user for running loki
+  ansible.builtin.shell: |
+    useradd --no-create-home --shell /bin/false loki
+
+- name: Get loki latest version
+  ansible.builtin.shell: |
+    export LOKI_VERSION=$(curl -s https://api.github.com/repos/grafana/loki/releases/latest | grep tag_name | cut -d '"' -f 4) \
+    && wget https://github.com/grafana/loki/releases/download/${LOKI_VERSION}/loki-linux-amd64.zip \
+    && unzip loki-linux-amd64.zip \
+    && chmod +x loki-linux-amd64 \
+    && mv loki-linux-amd64 /usr/local/bin/loki
+
+- name: Make config and data directories
+  ansible.builtin.shell: |
+    mkdir -p /etc/loki /var/lib/loki \
+      chown loki:loki /var/lib/loki
+
+- name: Downloading default config file
+  ansible.builtin.shell: |
+    export LOKI_VERSION=$(curl -s https://api.github.com/repos/grafana/loki/releases/latest | grep tag_name | cut -d '"' -f 4) \
+    && wget https://raw.githubusercontent.com/grafana/loki/${LOKI_VERSION}/cmd/loki/loki-local-config.yaml -O /etc/loki/loki-config.yaml \
+    && chown loki:loki /etc/loki/loki-config.yaml
+
+- name: Create systemd unit file
+  ansible.builtin.template:
+    src: loki.service.j2
+    dest: /etc/systemd/system/loki.service
+
+- name: Systemd Daemon reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Enable loki service
+  ansible.builtin.systemd:
+    name: loki.service
+    state: started
+    enabled: yes
+...

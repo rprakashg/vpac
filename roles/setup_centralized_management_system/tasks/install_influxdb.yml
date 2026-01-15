@@ -1,0 +1,41 @@
+---
+# This task installs influxdb
+- name: Create yum repo file
+  ansible.builtin.copy:
+    dest: /etc/yum.repos.d/influxdb.repo
+    content: |
+      [influxdata]
+      name = InfluxData Repository - Stable
+      baseurl = https://repos.influxdata.com/stable/${basearch}/main
+      enabled = 1
+      gpgcheck = 1
+      gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-influxdata
+
+- name: Download the GPG KEY to verify downloads from influxdata repos
+  ansible.builtin.shell: |
+    curl --silent --location -O \
+      https://repos.influxdata.com/influxdata-archive.key \
+      && echo "943666881a1b8d9b849b74caebf02d3465d6beb716510d86a39f6c8e8dac7515  influxdata-archive.key" \
+      | sha256sum --check - && cat influxdata-archive.key \
+      | gpg --dearmor \
+      | tee /etc/pki/rpm-gpg/RPM-GPG-KEY-influxdata > /dev/null
+
+- name: Install influxdb
+  ansible.builtin.dnf:
+    name: influxdb2
+    state: latest
+
+- name: Start influxdb
+  ansible.builtin.systemd:
+    name: influxdb.service
+    state: started
+    enabled: true
+
+- name: Install influx cli
+  ansible.builtin.shell: |
+    wget https://dl.influxdata.com/influxdb/releases/influxdb2-client-{{ influx_version }}-linux-amd64.tar.gz \
+      && tar xvzf ./influxdb2-client-{{ influx_version }}-linux-amd64.tar.gz \
+      &&  cp ./influx /usr/local/bin/
+
+- name: Verify
+  ansible.builtin.command: influx version

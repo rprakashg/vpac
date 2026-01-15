@@ -1,0 +1,45 @@
+---
+# This tasks installs gitea on podman
+- name: Install git
+  ansible.builtin.dnf:
+    state: latest
+    name: git
+
+- name: Check if firewalld is installed
+  shell: rpm -q firewalld
+  register: firewalld_installed
+  ignore_errors: yes
+
+- name: Open TCP ports for AAP Controller
+  when: firewalld_installed.rc == 0
+  firewalld:
+    port: "{{ gitea_port }}"
+    permanent: yes
+    state: enabled
+    zone: public
+
+- name: Reload firewall
+  ansible.builtin.systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Create podman volume to store gitea data
+  ansible.builtin.template:
+    src: gitea.volume.j2
+    dest: /etc/containers/systemd/gitea.volume
+
+- name: Create podman quadlet for gitea
+  ansible.builtin.template:
+    src: gitea.container.j2
+    dest: /etc/containers/systemd/gitea.container
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Enable gitea
+  ansible.builtin.systemd:
+    name: gitea.service
+    state: started
+    enabled: yes
+...

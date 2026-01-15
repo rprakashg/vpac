@@ -1,0 +1,16 @@
+[Unit]
+Description=Gitea container
+After=network-online.target
+
+[Container]
+Image={{ gitea_image }}
+Name=gitea
+PublishPort={{ gitea_port }}:3000
+Volume=gitea-data:/data:Z
+Restart=on-error
+
+[Service]
+TimeoutStartSec=120
+
+[Install]
+WantedBy=multi-user.target
