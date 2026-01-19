@@ -3,13 +3,6 @@
 - name: Preflight steps
   ansible.builtin.import_tasks: preflight.yml
 
-- name: Download installer bundle
-  ansible.builtin.import_tasks: download_aap_installer.yml
-
-- name: Install AAP
-  when: install_aap | default(true)
-  ansible.builtin.import_tasks: install_aap.yml
-
 - name: Install gitea
   become: true
   when: install_gitea | default(true)
@@ -29,3 +22,10 @@
   become: true
   when: install_grafana | default(true)
   ansible.builtin.import_tasks: install_grafana.yml
+
+- name: Download installer bundle
+  ansible.builtin.import_tasks: download_aap_installer.yml
+
+- name: Install AAP
+  when: install_aap | default(true)
+  ansible.builtin.import_tasks: install_aap.yml
