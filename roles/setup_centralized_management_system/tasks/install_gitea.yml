@@ -10,10 +10,10 @@
   register: firewalld_installed
   ignore_errors: yes
 
-- name: Open TCP ports for AAP Controller
+- name: Open TCP ports for gitea
   when: firewalld_installed.rc == 0
   firewalld:
-    port: "{{ gitea_port }}"
+    port: "{{ gitea_port | default('3030') }}/tcp"
     permanent: yes
     state: enabled
     zone: public
