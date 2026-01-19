@@ -12,7 +12,7 @@
     subscription-manager register --username={{ rh_user }} --password={{ rh_user_password }} --force
     subscription-manager role --set="Red Hat Enterprise Linux Server"
     subscription-manager service-level --set="Self-Support"
-    subscription-manager usag --set="Development/Test"
+    subscription-manager usage --set="Development/Test"
     subscription-manager attach
     subscription-manager config --rhsm.manage_repos=1
 

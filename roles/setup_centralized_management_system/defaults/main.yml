@@ -2,7 +2,6 @@
 # defaults file for ./roles/install_aap
 aap_sha: 47197c8e2f909c3f5acc445d955d7ed8182dfb05b466c136ec24aedee8dce63e
 
-aap_default_password: 'r3dH4T1'
 eda_image: 'eda-controller-rhel9:latest'
 
 node_fqdn: ''
@@ -16,5 +15,4 @@ install_influxdb: true
 influx_version: 2.75
 
 install_loki: true
-
 install_grafana: true

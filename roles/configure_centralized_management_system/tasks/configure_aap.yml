@@ -1,0 +1,186 @@
+---
+# This task configures ansible automation platform
+- name: Create a temp directory to store AAP config
+  ansible.builtin.tempFile:
+    state: directory
+  register: tempdir
+
+- name: Set tempdir path in fact
+  ansible.builtin.set_fact:
+    config_dir: "{{ tempdir.path }}"
+
+- name: Generate AAP config
+  delegate_to: localhost
+  ansible.builtin.template:
+    src: "{{ aap_config_template }}"
+    dest: "{{ config_dir }}/aap_config.yml" 
+
+- name: Load variables
+  ansible.builtin.include_vars: "{{ config_dir }}/aap_config.yml"
+
+# Configure execution environments
+- name: Configure execution environments
+  when: controller_execution_environments is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.execution_environments
+
+# Configure credential types
+- name: Configure credential types
+  when: controller_credential_types is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.credential_types
+
+# Configure Organizations
+- name: Configure Organizations
+  when: controller_organizations is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.organizations
+
+# Configure users
+- name: Configure users
+  when: controller_user_accounts is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.users
+
+# Configure roles
+- name: Configure roles
+  when: controller_roles is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.roles
+
+# Configure Inventories
+- name: Configure Inventories
+  when: controller_inventories is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.inventories
+    
+# Configure Credentials
+- name: Configure Credentials
+  when: controller_credentials is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.credentials
+  vars:
+    controller_username: "{{ username }}"
+    controller_password: "{{ password }}"
+
+# Configure Projects
+- name: Configure projects 
+  when: controller_projects is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.projects
+  vars:
+    controller_username: "{{ username }}"
+    controller_password: "{{ password }}"
+    update_project: true
+
+# Configure Hosts
+- name: Configure hosts
+  when: controller_hosts is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.hosts
+  vars:
+    controller_username: "{{ username }}"
+    controller_password: "{{ password }}"
+
+# Configure Job Templates
+- name: Configure job Templates
+  when: controller_templates is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.job_templates
+  vars:
+    controller_username: "{{ username }}"
+    controller_password: "{{ password }}"
+
+# Configure Workflows
+- name: Configure workflows
+  when: controller_workflows is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.workflow_job_templates
+  vars:
+    controller_username: "{{ username }}"
+    controller_password: "{{ password }}"
+
+# Configure Event Driven Ansible
+- name: Create Personal Access Token
+  ansible.builtin.shell: |
+    set -euo pipefail
+    set -x
+
+    ANSIBLE_CONTROLLER_URL="https://{{ controller_hostname }}"
+    USERNAME="{{ admin_user }}"
+    PASSWORD="{{ admin_password }}"
+
+    TOKEN_PAYLOAD=$(mktemp)
+    trap 'rm -f "$TOKEN_PAYLOAD"' EXIT
+
+    cat <<EOF > "$TOKEN_PAYLOAD"
+    {
+      "name": "Automation token",
+      "scope": "write"
+    }
+    EOF
+
+    # Request token
+    response=$(curl -sk \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -u "{$USERNAME}:${PASSWORD}" \
+      -d @"$TOKEN_PAYLOAD" \
+      "${ANSIBLE_CONTROLLER_URL}/api/v2/tokens/" || true )
+
+    # Extract token from payload
+    if command -V jq >/dev/null 2>&1; then
+      token=$(echo "$response" | jq -r '.token // empty')
+    else
+      # parse token since jq is not installed
+      token=$(echo "$response" | grep -o '"token": *"[^"]*"' | awk -F'"' '{print $4}')
+    fi
+
+    # validate token
+    if [[ -z "$token" ]]; then
+      echo "ERROR: No token received from Controller API" >&2
+      echo "Response was: $response" >&2
+      exit 1
+    fi
+
+    echo $token
+  register: token_output
+  delegate_to: localhost
+
+- name: Set token in variable
+  ansible.builtin.set_fact:
+    _auth_token: "{{ token_output.stdout_lines[-1] }}"
+
+# Configure EDA users
+- name: Configure EDA users
+  when: eda_users is defined
+  ansible.builtin.incldue_role:
+    name: infra.eda_configuration.user
+
+# Configure EDA Credentials
+- name: Configure EDA Credentials
+  when: eda_credentials is defined
+  ansible.builtin.include_role:
+    name: infra.eda_configuration.credential
+
+#Configure EDA projects
+- name: Configure EDA projects
+  when: eda_projects is defined
+  ansible.builtin.include_role:
+    name: infra.eda_configuration.project
+
+#Configure EDA tokens
+- name: Configure EDA tokens
+  when: eda_user_tokens is defined
+  ansible.builtin.include_role:
+    name: infra.eda_configuration.user_token
+  vars:
+    eda_user_tokens:
+    - name: Controller token
+      token: "{{ _auth_token }}"
+
+#Configure EDA Rulebook activations
+- name: Configure EDA rulebook activations
+  when: eda_rulebook_activations is defined
+  ansible.builtin.include_role:
+    name: infra.eda_configuration.rulebook_activation
