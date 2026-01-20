@@ -1,6 +1,7 @@
 [Unit]
 Description=Gitea container
-After=network-online.target
+After=gitea-init.service network-online.target
+Wants=gitea-init.service
 
 [Container]
 Image={{ gitea_image }}

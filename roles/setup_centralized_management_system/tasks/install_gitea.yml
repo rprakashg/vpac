@@ -34,6 +34,55 @@
     src: gitea.container.j2
     dest: /etc/containers/systemd/gitea.container
 
+- name: Generate init dirs script for gitea
+  ansible.builtin.copy:
+    dest: /usr/share/gitea/config/10-init-dirs.sh
+    content: |
+      #!/bin/sh
+      set -e 
+
+      mkdir -p /data/gitea/conf
+      mkdir -p /data/gitea/repositories
+      mkdir -p /data/ssh
+    mode: '0755'
+
+- name: Generate app.ini script
+  ansible.builtin.copy: 
+    dest: /usr/share/gitea/config/20-generate-appini.sh
+    content: |
+      #!/bin/sh
+      set -e
+
+      APPINI=/data/gitea/conf/app.ini
+
+      if [ -f "$APPINI" ]; then
+        echo "[init] app.ini already exists, skipping"
+        exit 0
+      fi
+
+      cat <<EOF > "$APPINI"
+      {{ lookup('template', 'app.ini.j2') }}
+      EOF
+
+      echo "[init] app.ini generated"
+    mode: '0755'
+
+- name: Generate fix permissions script
+  ansible.builtin.copy:
+    dest: /usr/share/gitea/config/30-fixperms.sh
+    content: |
+      #!/bin/sh
+      set -e
+
+      chown -R 1000:1000 /data
+      echo "[init] Updated permissions"
+    mode: '0755'
+
+- name: Generate init gitea quadlet
+  ansible.builtin.template:
+    src: gitea-init.container.j2
+    dest: /etc/containers/systemd/gitea-init.container
+    
 - name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true

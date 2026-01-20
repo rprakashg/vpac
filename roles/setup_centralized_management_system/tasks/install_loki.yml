@@ -7,8 +7,6 @@
     shell: /bin/false
     create_home: false
     state: present
-  #ansible.builtin.shell: |
-  #  useradd --no-create-home --shell /bin/false loki
 
 - name: Get loki latest version
   ansible.builtin.shell: |
@@ -21,7 +19,7 @@
 - name: Make config and data directories
   ansible.builtin.shell: |
     mkdir -p /etc/loki /var/lib/loki \
-      chown loki:loki /var/lib/loki
+      && chown loki:loki /var/lib/loki
 
 - name: Downloading default config file
   ansible.builtin.shell: |

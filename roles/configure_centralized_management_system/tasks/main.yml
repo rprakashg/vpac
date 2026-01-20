@@ -10,6 +10,10 @@
   when: config_gitea | default(true)
   ansible.builtin.import_tasks: configure_gitea.yml
 
+- name: Configure Influx
+  when: config_influxdb | default(true)
+  ansible.builtin.import_tasks: configure_influxdb.yml
+  
 - name: Configure aap
   when: config_aap | default(true)
   ansible.builtin.import_tasks: configure_aap.yml
