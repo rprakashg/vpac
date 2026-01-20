@@ -1,8 +1,14 @@
 ---
 # This task install grafana loki log aggregation system
 - name: Create a user for running loki
-  ansible.builtin.shell: |
-    useradd --no-create-home --shell /bin/false loki
+  ansible.builtin.user:
+    name: loki
+    comment: "Service account for loki"
+    shell: /bin/false
+    create_home: false
+    state: present
+  #ansible.builtin.shell: |
+  #  useradd --no-create-home --shell /bin/false loki
 
 - name: Get loki latest version
   ansible.builtin.shell: |
