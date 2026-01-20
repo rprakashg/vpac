@@ -7,10 +7,10 @@ Image={{ gitea_image }}
 ContainerName=gitea
 PublishPort={{ gitea_port }}:3000
 Volume=gitea-data:/data:Z
-Restart=on-error
 
 [Service]
 TimeoutStartSec=120
+Restart=on-error
 
 [Install]
 WantedBy=multi-user.target
