@@ -4,7 +4,7 @@ After=network-online.target
 
 [Container]
 Image={{ gitea_image }}
-Name=gitea
+ContainerName=gitea
 PublishPort={{ gitea_port }}:3000
 Volume=gitea-data:/data:Z
 Restart=on-error
