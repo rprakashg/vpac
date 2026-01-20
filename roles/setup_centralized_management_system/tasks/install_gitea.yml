@@ -40,9 +40,9 @@
     src: gitea.container.j2
     dest: /etc/containers/systemd/gitea.container
 
-- name: Generate init dirs script for gitea
+- name: Generate init script for gitea
   ansible.builtin.copy:
-    dest: /usr/share/gitea/config/10-init-dirs.sh
+    dest: /usr/share/gitea/config/init.sh
     content: |
       #!/bin/sh
       set -e 
@@ -50,14 +50,6 @@
       mkdir -p /data/gitea/conf
       mkdir -p /data/gitea/repositories
       mkdir -p /data/ssh
-    mode: '0755'
-
-- name: Generate app.ini script
-  ansible.builtin.copy: 
-    dest: /usr/share/gitea/config/20-generate-appini.sh
-    content: |
-      #!/bin/sh
-      set -e
 
       APPINI=/data/gitea/conf/app.ini
 
@@ -71,14 +63,6 @@
       EOF
 
       echo "[init] app.ini generated"
-    mode: '0755'
-
-- name: Generate fix permissions script
-  ansible.builtin.copy:
-    dest: /usr/share/gitea/config/30-fixperms.sh
-    content: |
-      #!/bin/sh
-      set -e
 
       chown -R 1000:1000 /data
       echo "[init] Updated permissions"
