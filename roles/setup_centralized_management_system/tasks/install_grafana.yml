@@ -10,14 +10,16 @@
     | tee /etc/pki/rpm-gpg/RPM-GPG-KEY-grafana > /dev/null
 
 - name: Create a grafana repo file
-  ansible.builtin.copy: |
-    [grafana]
-    name = Grafana OSS
-    baseurl = https://packages.grafana.com/oss/rpm
-    repo_gpgcheck = 1
-    enabled = 1
-    gpgcheck = 1
-    gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-grafana
+  ansible.builtin.copy:
+    dest: /etc/yum.repos.d/
+    content: |
+      [grafana]
+      name = Grafana OSS
+      baseurl = https://packages.grafana.com/oss/rpm
+      repo_gpgcheck = 1
+      enabled = 1
+      gpgcheck = 1
+      gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-grafana
 
 - name: Install Grafana
   ansible.builtin.dnf:
@@ -33,3 +35,16 @@
     name: grafana-server.service
     state: started
     enabled: yes
+
+- name: Check if firewalld is installed
+  shell: rpm -q firewalld
+  register: firewalld_installed
+  ignore_errors: yes
+
+- name: Open TCP ports for influx
+  when: firewalld_installed.rc == 0
+  firewalld:
+    port: "{{ grafana_port | default('3000') }}/tcp"
+    permanent: yes
+    state: enabled
+    zone: public
