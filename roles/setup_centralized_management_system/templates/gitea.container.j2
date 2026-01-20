@@ -6,7 +6,11 @@ After=network-online.target
 Image={{ gitea_image }}
 ContainerName=gitea
 PublishPort={{ gitea_port }}:3000
+PublishPort=222:22
 Volume=gitea-data:/data:Z
+Environment=USER_UID=1000
+Environment=USER_GID=1000
+
 
 [Service]
 TimeoutStartSec=120
