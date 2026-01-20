@@ -5,6 +5,12 @@
     state: latest
     name: git
 
+- name: Create /usr/share/gitea/config dir
+  ansible.builtin.file:
+    path: /usr/share/gitea/config
+    state: directory
+    mode: '0755'
+
 - name: Check if firewalld is installed
   shell: rpm -q firewalld
   register: firewalld_installed
@@ -82,7 +88,7 @@
   ansible.builtin.template:
     src: gitea-init.container.j2
     dest: /etc/containers/systemd/gitea-init.container
-    
+
 - name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true
