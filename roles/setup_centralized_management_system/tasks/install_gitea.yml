@@ -54,7 +54,7 @@
       APPINI=/data/gitea/conf/app.ini
 
       if [ -f "$APPINI" ]; then
-        echo "[init] app.ini already exists, deleting"
+        echo "[init] app.ini already exists, deleting..."
         rm "$APPINI"
       fi
 
