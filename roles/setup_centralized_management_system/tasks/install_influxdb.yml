@@ -49,6 +49,3 @@
     wget https://dl.influxdata.com/influxdb/releases/influxdb2-client-{{ influx_version }}-linux-amd64.tar.gz \
       && tar xvzf ./influxdb2-client-{{ influx_version }}-linux-amd64.tar.gz \
       &&  cp ./influx /usr/local/bin/
-
-- name: Verify
-  ansible.builtin.command: influx version
