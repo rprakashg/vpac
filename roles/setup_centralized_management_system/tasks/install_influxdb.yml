@@ -43,3 +43,9 @@
     permanent: yes
     state: enabled
     zone: public
+    
+- name: Reload firewall
+  when: firewalld_installed.rc == 0
+  ansible.builtin.systemd:
+    name: firewalld
+    state: reloaded
