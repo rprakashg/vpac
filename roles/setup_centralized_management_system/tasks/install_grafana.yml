@@ -11,7 +11,7 @@
 
 - name: Create a grafana repo file
   ansible.builtin.copy:
-    dest: /etc/yum.repos.d/
+    dest: /etc/yum.repos.d/grafana.repo
     content: |
       [grafana]
       name = Grafana OSS
