@@ -43,9 +43,3 @@
     permanent: yes
     state: enabled
     zone: public
-
-- name: Install influx cli
-  ansible.builtin.shell: |
-    wget https://dl.influxdata.com/influxdb/releases/influxdb2-client-{{ influx_version }}-linux-amd64.tar.gz \
-      && tar xvzf ./influxdb2-client-{{ influx_version }}-linux-amd64.tar.gz \
-      &&  cp ./influx /usr/local/bin/
