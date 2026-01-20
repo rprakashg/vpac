@@ -24,6 +24,7 @@
   ansible.builtin.import_tasks: install_grafana.yml
 
 - name: Download installer bundle
+  when: install_aap | default(true)
   ansible.builtin.import_tasks: download_aap_installer.yml
 
 - name: Install AAP
