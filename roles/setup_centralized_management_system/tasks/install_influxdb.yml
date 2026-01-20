@@ -31,6 +31,19 @@
     state: started
     enabled: true
 
+- name: Check if firewalld is installed
+  shell: rpm -q firewalld
+  register: firewalld_installed
+  ignore_errors: yes
+
+- name: Open TCP ports for influx
+  when: firewalld_installed.rc == 0
+  firewalld:
+    port: "{{ influx_port | default('8086') }}/tcp"
+    permanent: yes
+    state: enabled
+    zone: public
+
 - name: Install influx cli
   ansible.builtin.shell: |
     wget https://dl.influxdata.com/influxdb/releases/influxdb2-client-{{ influx_version }}-linux-amd64.tar.gz \
