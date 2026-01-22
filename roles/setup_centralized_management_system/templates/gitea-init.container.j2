@@ -1,6 +1,6 @@
 [Unit]
 Description=Initialize Gitea
-After=network-online.target
+PartOf=gitea.target
 
 [Container]
 Image=registry.access.redhat.com/ubi9/ubi-minimal:9.7-1763362218
@@ -19,4 +19,4 @@ StandardOutput=journal
 StandardError=journal
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=gitea.target

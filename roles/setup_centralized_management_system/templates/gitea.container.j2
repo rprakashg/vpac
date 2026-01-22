@@ -1,6 +1,7 @@
 [Unit]
 Description=Gitea container
-After=gitea-init.service network-online.target
+PartOf=gitea.target
+After=gitea-init.service
 Wants=gitea-init.service
 
 [Container]
@@ -19,4 +20,4 @@ TimeoutStartSec=120
 Restart=on-failure
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=gitea.target
