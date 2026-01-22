@@ -18,7 +18,7 @@
 
 - name: Create a systemd target unit to group gitea services
   ansible.builtin.copy:
-    dest:
+    dest: "/etc/systemd/system/gitea.target"
     content: |
       [Unit]
       Description=Gitea services group
@@ -29,7 +29,7 @@
       After=network-online.target
       After=gitea-init.service
       After=gitea.service
-      
+
       [Install]
       WantedBy=multi-user.target
     mode: '0755'
