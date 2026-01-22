@@ -63,6 +63,9 @@
       EOF
 
       echo "[init] app.ini generated"
+
+      chown -R 1000:1000 /data
+      echo "[init] Updated permissions"
     mode: '0755'
 
 - name: Generate init gitea quadlet
