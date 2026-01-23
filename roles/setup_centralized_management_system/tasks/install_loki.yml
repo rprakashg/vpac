@@ -4,7 +4,7 @@
   ansible.builtin.user:
     name: loki
     comment: "Service account for loki"
-    shell: /bin/false
+    shell: /sbin/nologin
     create_home: false
     state: present
 
@@ -27,12 +27,12 @@
     dirs:
     - /etc/loki
     - /var/lib/loki
+    - /var/log/loki
 
 - name: Downloading default config file
   ansible.builtin.shell: |
     export LOKI_VERSION=$(curl -s https://api.github.com/repos/grafana/loki/releases/latest | grep tag_name | cut -d '"' -f 4) \
-    && wget https://raw.githubusercontent.com/grafana/loki/${LOKI_VERSION}/cmd/loki/loki-local-config.yaml -O /etc/loki/loki-config.yaml \
-    && chown loki:loki /etc/loki/loki-config.yaml
+    && wget https://raw.githubusercontent.com/grafana/loki/${LOKI_VERSION}/cmd/loki/loki-local-config.yaml -O /etc/loki/loki-config.yaml
 
 - name: Create systemd unit file
   ansible.builtin.template:
