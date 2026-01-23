@@ -144,8 +144,8 @@
     user_repos_home: "/home/{{ ansible_user }}/{{ username }}/repos"
 
 - name: Create gitea user
-  ansible.builtin.shell: |
-    cmd: podman exec -it gitea su git -c "/app/gitea/gitea admin user create --username {{ username }} --password '{{ password }}' --email '{{ username }}@no-reply.com' --must-change-password=false "
+  ansible.builtin.shell:
+    cmd: podman exec -it gitea su git -c "/app/gitea/gitea admin user create --username {{ username }} --password '{{ password }}' --email '{{ username }}@no-reply.com' --must-change-password=false"
   register: user_create
   changed_when:
   - "'created' in user_create.stdout"
