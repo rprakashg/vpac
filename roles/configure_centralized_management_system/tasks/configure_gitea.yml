@@ -6,7 +6,7 @@
 
 - name: Create initial gitea user
   ansible.builtin.shell: 
-    cmd: podman exec -it gitea su git -c "/app/gitea/gitea admin user create --username {{ gitea_admin_user | default('gitea') }} --password '{{ gitea_admin_password }}' --email '{{ gitea_admin_user }}@no-reply.com'"
+    cmd: podman exec -it gitea su git -c "/app/gitea/gitea admin user create --username {{ gitea_admin_user | default('gitea') }} --password '{{ gitea_admin_password }}' --email '{{ gitea_admin_user }}@no-reply.com' --admin"
   register: gitea_user_create
   changed_when:
   - "'created' in gitea_user_create.stdout"
