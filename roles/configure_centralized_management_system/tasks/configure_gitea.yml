@@ -2,7 +2,7 @@
 # This task configures gitea
 - name: Set binary extensions
   ansible.builtin.set_fact:
-    binary_extensions: "{{ binary_extensions | default(['exe', 'bin', 'dll', 'so', 'gz, 'tar']) }}"
+    binary_extensions: "{{ binary_extensions | default(['exe', 'bin', 'dll', 'so', 'gz', 'tar']) }}"
 
 - name: Create initial gitea user
   ansible.builtin.shell: 
