@@ -27,7 +27,7 @@
     admin_repos_home: "/home/{{ ansible_user }}/{{ gitea_admin_user }}/repos"
 
 - name: Create admin repos
-  when: gitea_admin_repos_template | default(false)
+  when: gitea_admin_repos_template is defined
   block:
   - name: Find template files
     delegate_to: localhost
