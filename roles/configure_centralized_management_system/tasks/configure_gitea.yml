@@ -168,7 +168,7 @@
     register: _template_files
   - name: Crop template file paths
     ansible.builtin.set_fact:
-      _template_files_crop: "{{ _template_files.files | map(attribute='path') | map('regex_replace', '^' + gitea_user_repo_template + '/?', '') | list }}"
+      _template_files_crop: "{{ _template_files.files | map(attribute='path') | map('regex_replace', '^' + gitea_user_repos_template + '/?', '') | list }}"
   - name: Debug cropped template file paths
     ansible.builtin.debug:
       var: _template_files_crop
