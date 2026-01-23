@@ -3,6 +3,7 @@
 - name: Set binary extensions
   ansible.builtin.set_fact:
     binary_extensions: "{{ binary_extensions | default(['exe', 'bin', 'dll', 'so', 'gz, 'tar']) }}"
+
 - name: Create initial gitea user
   ansible.builtin.shell: 
     cmd: podman exec -it gitea su git -c "/app/gitea/gitea admin user create --username {{ gitea_admin_user | default('gitea')}} --password '{{ gitea_admin_password }}"
@@ -157,7 +158,7 @@
   - name: Find template files
     delegate_to: localhost
     ansible.builtin.find:
-      paths: "{{ repo_template }}"
+      paths: "{{ gitea_user_repos_template }}"
       patterns: "*"
       recurse: yes
       hidden: true
