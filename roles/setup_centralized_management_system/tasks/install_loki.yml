@@ -43,6 +43,13 @@
   ansible.builtin.systemd:
     daemon_reload: true
 
+- name: Label the binary and data firs
+  ansible.builtin.shell: |
+    semanage fcontext -a -t bin_t "/usr/local/bin/loki" \
+    && restorecon -v /usr/local/bin/loki \
+    && semanage fcontext -a -t var_lib_t "/var/lib/loki(/.*)?" \
+    && restorecon -Rv /var/lib/loki 
+
 - name: Enable loki service
   ansible.builtin.systemd:
     name: loki.service
