@@ -1,7 +1,7 @@
 ---
 # This task configures ansible automation platform
 - name: Create a temp directory to store AAP config
-  ansible.builtin.tempFile:
+  ansible.builtin.tempfile:
     state: directory
   register: tempdir
 

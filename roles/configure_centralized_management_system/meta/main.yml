@@ -1,6 +1,6 @@
 galaxy_info:
   author: Ram Gopinathan
-  description: This role configures AAP
+  description: This role configures centralized management system
   company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the
