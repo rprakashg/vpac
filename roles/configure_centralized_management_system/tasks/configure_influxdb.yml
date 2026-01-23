@@ -20,3 +20,6 @@
       org: "{{ influxdb_org }}"
       bucket: "{{ influxdb_bucket }}" 
       retentionPeriodSeconds: "{{ influxdb_retentionperiod }}"
+    status_code:
+    - 201
+    - 409
