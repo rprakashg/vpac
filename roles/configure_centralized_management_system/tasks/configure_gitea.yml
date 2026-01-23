@@ -31,6 +31,7 @@
   block:
   - name: Find template files
     delegate_to: localhost
+    become: false
     ansible.builtin.find:
       paths: "{{ gitea_admin_repos_template }}"
       patterns: "*"
@@ -157,6 +158,7 @@
   block:
   - name: Find template files
     delegate_to: localhost
+    become: false
     ansible.builtin.find:
       paths: "{{ gitea_user_repos_template }}"
       patterns: "*"
