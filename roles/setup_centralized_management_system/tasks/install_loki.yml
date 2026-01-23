@@ -17,9 +17,16 @@
     && mv loki-linux-amd64 /usr/local/bin/loki
 
 - name: Make config and data directories
-  ansible.builtin.shell: |
-    mkdir -p /etc/loki /var/lib/loki \
-      && chown loki:loki /var/lib/loki
+  ansible.builtin.file:
+    path: "{{ dirs }}"
+    state: directory
+    owner: loki
+    group: loki
+    mode: '0755'
+  var:
+    dirs:
+    - /etc/loki
+    - /var/lib/loki
 
 - name: Downloading default config file
   ansible.builtin.shell: |
