@@ -154,7 +154,7 @@
 # Configure EDA users
 - name: Configure EDA users
   when: eda_users is defined
-  ansible.builtin.incldue_role:
+  ansible.builtin.include_role:
     name: infra.eda_configuration.user
 
 # Configure EDA Credentials
@@ -163,13 +163,13 @@
   ansible.builtin.include_role:
     name: infra.eda_configuration.credential
 
-#Configure EDA projects
+# Configure EDA projects
 - name: Configure EDA projects
   when: eda_projects is defined
   ansible.builtin.include_role:
     name: infra.eda_configuration.project
 
-#Configure EDA tokens
+# Configure EDA tokens
 - name: Configure EDA tokens
   when: eda_user_tokens is defined
   ansible.builtin.include_role:
