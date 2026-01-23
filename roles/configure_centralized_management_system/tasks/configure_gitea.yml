@@ -221,7 +221,7 @@
     loop: "{{ repo_names }}"
   - name: Copy non binary template files to repo
     ansible.builtin.template:
-      src: "{{ repo_template }}/{{ item }}"
+      src: "{{ gitea_user_repos_template }}/{{ item }}"
       dest: "{{ user_repos_home }}/{{ item }}"
     loop: "{{ _template_files_crop_nonbin }}"
   - name: Create repos in gitea
