@@ -23,7 +23,7 @@
     owner: loki
     group: loki
     mode: '0755'
-  var:
+  vars:
     dirs:
     - /etc/loki
     - /var/lib/loki
