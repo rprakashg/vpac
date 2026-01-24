@@ -102,7 +102,7 @@
 
     ANSIBLE_CONTROLLER_URL="https://{{ controller_hostname }}"
     USERNAME="{{ admin_user }}"
-    PASSWORD="{{ admin_password }}"
+    PASSWORD="{{ admin_user_password }}"
 
     TOKEN_PAYLOAD=$(mktemp)
     trap 'rm -f "$TOKEN_PAYLOAD"' EXIT
