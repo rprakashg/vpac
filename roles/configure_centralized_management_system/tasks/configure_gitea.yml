@@ -226,7 +226,7 @@
     loop: "{{ _template_files_crop_nonbin }}"
   - name: Create repos in gitea
     ansible.builtin.uri:
-      url: "http://{{ ansible_host }}:{{ gitea_port | default('3030') }}/api/admin/users/{{ gitea_user }}/repos"
+      url: "http://{{ ansible_host }}:{{ gitea_port | default('3030') }}/api/v1/admin/users/{{ gitea_user }}/repos"
       validate_certs: false
       user: "{{ gitea_admin_user }}"
       password: "{{ gitea_admin_password }}"
