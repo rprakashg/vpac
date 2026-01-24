@@ -1,11 +1,13 @@
 ---
 # This task configures ansible automation platform
 - name: Create a temp directory to store AAP config
+  delegate_to: localhost
   ansible.builtin.tempfile:
     state: directory
   register: tempdir
 
 - name: Set tempdir path in fact
+  delegate_to: localhost
   ansible.builtin.set_fact:
     config_dir: "{{ tempdir.path }}"
 
@@ -59,9 +61,6 @@
   when: controller_credentials is defined
   ansible.builtin.include_role:
     name: infra.controller_configuration.credentials
-  vars:
-    controller_username: "{{ username }}"
-    controller_password: "{{ password }}"
 
 # Configure Projects
 - name: Configure projects 
@@ -69,8 +68,6 @@
   ansible.builtin.include_role:
     name: infra.controller_configuration.projects
   vars:
-    controller_username: "{{ username }}"
-    controller_password: "{{ password }}"
     update_project: true
 
 # Configure Hosts
@@ -78,27 +75,24 @@
   when: controller_hosts is defined
   ansible.builtin.include_role:
     name: infra.controller_configuration.hosts
-  vars:
-    controller_username: "{{ username }}"
-    controller_password: "{{ password }}"
+
+# Configure groups
+- nane: Configure groups
+  when: controller_groups is defined
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.groups
 
 # Configure Job Templates
 - name: Configure job Templates
   when: controller_templates is defined
   ansible.builtin.include_role:
     name: infra.controller_configuration.job_templates
-  vars:
-    controller_username: "{{ username }}"
-    controller_password: "{{ password }}"
 
 # Configure Workflows
 - name: Configure workflows
   when: controller_workflows is defined
   ansible.builtin.include_role:
     name: infra.controller_configuration.workflow_job_templates
-  vars:
-    controller_username: "{{ username }}"
-    controller_password: "{{ password }}"
 
 # Configure Event Driven Ansible
 - name: Create Personal Access Token

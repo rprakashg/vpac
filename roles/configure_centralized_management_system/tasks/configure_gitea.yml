@@ -132,7 +132,7 @@
 
 - name: Create directory for user repos
   ansible.builtin.file:
-    path: "/home/{{ ansible_user }}/{{ username }}/repos"
+    path: "/home/{{ ansible_user }}/{{ gitea_user }}/repos"
     state: directory
     owner: "{{ ansible_user }}"
     group: wheel
@@ -141,11 +141,11 @@
 
 - name: Set in variable
   ansible.builtin.set_fact:
-    user_repos_home: "/home/{{ ansible_user }}/{{ username }}/repos"
+    user_repos_home: "/home/{{ ansible_user }}/{{ gitea_user }}/repos"
 
 - name: Create gitea user
   ansible.builtin.shell:
-    cmd: podman exec -it gitea su git -c "/app/gitea/gitea admin user create --username {{ username }} --password '{{ password }}' --email '{{ username }}@no-reply.com' --must-change-password=false"
+    cmd: podman exec -it gitea su git -c "/app/gitea/gitea admin user create --username {{ gitea_user }} --password '{{ gitea_user_password }}' --email '{{ gitea_user }}@no-reply.com' --must-change-password=false"
   register: user_create
   changed_when:
   - "'created' in user_create.stdout"
@@ -153,7 +153,7 @@
   - "'created' not in user_create.stdout"
   - "'already exists' not in user_create.stdout"
 
-- name: Create repo
+- name: Create repos
   when: gitea_user_repos_template is defined
   block:
   - name: Find template files
@@ -201,12 +201,12 @@
       if [ ! -d .git ]; then
         git init
         git checkout -b main
-        git config user.name "{{ username }}"
-        git config user.email "{{ username }}@no-reply.com"
+        git config user.name "{{ gitea_user }}"
+        git config user.email "{{ gitea_user }}@no-reply.com"
       else
         git checkout main || git checkout -b main
-        git config user.name "{{ username }}" 
-        git config user.email "{{ username }}@no-reply.com"
+        git config user.name "{{ gitea_user }}" 
+        git config user.email "{{ gitea_user }}@no-reply.com"
         if git remote | grep -q origin; then
           git fetch origin
           if git rev-parse --verify origin/main > /dev/null 2>&1; then
@@ -226,7 +226,7 @@
     loop: "{{ _template_files_crop_nonbin }}"
   - name: Create repos in gitea
     ansible.builtin.uri:
-      url: "http://{{ ansible_host }}:{{ gitea_port | default('3030') }}/api/admin/users/{{ username }}/repos"
+      url: "http://{{ ansible_host }}:{{ gitea_port | default('3030') }}/api/admin/users/{{ gitea_user }}/repos"
       validate_certs: false
       user: "{{ gitea_admin_user }}"
       password: "{{ gitea_admin_password }}"
@@ -247,7 +247,7 @@
       git checkout -b main
       git add .
       git commit -m "Initial commit"
-      git remote add origin http://{{ username }}:{{ password }}@{{ ansible_host }}:{{ gitea_port | default('3030')}}/{{ username }}/{{ item }}.git
+      git remote add origin http://{{ gitea_user }}:{{ gitea_user_password }}@{{ ansible_host }}:{{ gitea_port | default('3030')}}/{{ gitea_user }}/{{ item }}.git
     loop: "{{ repo_names }}"
   - name: Push repositories
     ignore_errors: true

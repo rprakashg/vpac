@@ -2,21 +2,13 @@
 # defaults file for ./roles/configure_aap
 aap_config_template: ""
 
-#users
-username: vpac
-password: password
-
 # Image Builder
 config_imagebuilder: true 
 
 # AAP Config
 config_aap: true
 controller_hostname: "{{ ansible_host }}:8443"
-controller_username: "admin"
-controller_password: "r3dH4T1"
 eda_hostname: "{{ ansible_host }}:8445"
-eda_username: "admin"
-eda_password: "r3dH4T1"
 eda_validate_certs: false
 
 #gitea config
@@ -24,6 +16,8 @@ config_gitea: true
 gitea_port: 3030
 gitea_admin_user: gitea
 gitea_admin_password: r3dH4T1
+gitea_user: vpac
+gitea_user_password: r3dH4T1
 gitea_webhook_target: "{{ ansible_host }}:5000"
 
 #influxdb config
