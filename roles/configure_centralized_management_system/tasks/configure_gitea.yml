@@ -252,7 +252,7 @@
   - name: Push repositories
     ignore_errors: true
     ansible.builtin.shell: |
-      cd cd {{ user_repos_home }}/{{ item }}
+      cd {{ user_repos_home }}/{{ item }}
       git checkout -b main
       git push -u origin main
     loop: "{{ repo_names }}"
