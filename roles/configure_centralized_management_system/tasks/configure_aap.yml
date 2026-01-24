@@ -52,12 +52,10 @@
 
 # Configure Inventories
 - name: Configure Inventories
-  when: controller_inventories_yaml is defined
+  when: controller_inventories is defined
   ansible.builtin.include_role:
     name: infra.controller_configuration.inventories
-  vars:
-    controller_inventories: "{{ controller_inventories_yaml | from yaml }}"
-      
+
 # Configure Credentials
 - name: Configure Credentials
   when: controller_credentials is defined
