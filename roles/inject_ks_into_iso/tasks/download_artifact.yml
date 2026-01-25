@@ -10,7 +10,7 @@
   ansible.builtin.set_fact:
     artifact_dir: "{{ tempdir_result.path }}"
 
-- name: Get new blueprint version
+- name: Get blueprint version
   ansible.builtin.shell: composer-cli --json blueprints show "{{ builder_blueprint_name }}" | jq -r ".[].body.blueprints[].version"
   register: new_blueprint_version_result
 
