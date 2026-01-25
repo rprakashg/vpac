@@ -100,8 +100,8 @@
     set -x
     hostname
     ANSIBLE_CONTROLLER_URL="https://{{ controller_hostname }}"
-    USERNAME="{{ controller_username }}"
-    PASSWORD="{{ controller_password }}"
+    USERNAME="{{ aap_username }}"
+    PASSWORD="{{ aap_password }}"
 
     cat <<EOF > /tmp/token_request.json
     {
