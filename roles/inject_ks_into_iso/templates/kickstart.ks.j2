@@ -11,6 +11,8 @@
 {% endfor %}
 {% endif %}
 
+# setting root password
+rootpw --iscrypted {{ root_password | password_hash('sha512')}}
 
 {% if builder_kickstart_post is defined and builder_kickstart_post | length > 0 %}
 %post --log=/var/log/anaconda/post-install.log --erroronfail
