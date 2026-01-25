@@ -97,45 +97,22 @@
 # Configure Event Driven Ansible
 - name: Create Personal Access Token
   ansible.builtin.shell: |
-    set -euo pipefail
     set -x
-
+    hostname
     ANSIBLE_CONTROLLER_URL="https://{{ controller_hostname }}"
-    USERNAME="{{ admin_user }}"
-    PASSWORD="{{ admin_user_password }}"
+    USERNAME="{{ controller_username }}"
+    PASSWORD="{{ controller_password }}"
 
-    TOKEN_PAYLOAD=$(mktemp)
-    trap 'rm -f "$TOKEN_PAYLOAD"' EXIT
-
-    cat <<EOF > "$TOKEN_PAYLOAD"
+    cat <<EOF > /tmp/token_request.json
     {
-      "name": "Automation token",
+      "name": "Admin token",
       "scope": "write"
     }
     EOF
 
     # Request token
-    response=$(curl -sk \
-      -X POST \
-      -H "Content-Type: application/json" \
-      -u "{$USERNAME}:${PASSWORD}" \
-      -d @"$TOKEN_PAYLOAD" \
-      "${ANSIBLE_CONTROLLER_URL}/api/v2/tokens/" || true )
-
-    # Extract token from payload
-    if command -V jq >/dev/null 2>&1; then
-      token=$(echo "$response" | jq -r '.token // empty')
-    else
-      # parse token since jq is not installed
-      token=$(echo "$response" | grep -o '"token": *"[^"]*"' | awk -F'"' '{print $4}')
-    fi
-
-    # validate token
-    if [[ -z "$token" ]]; then
-      echo "ERROR: No token received from Controller API" >&2
-      echo "Response was: $response" >&2
-      exit 1
-    fi
+    response=$(curl -k -X POST -H "Content-Type: application/json" -u "${USERNAME}:${PASSWORD}" -d "@/tmp/token_request.json" "${ANSIBLE_CONTROLLER_URL}/api/v2/tokens/")
+    token=$(echo "$response" | grep -o '"token": *"[^"]*"' | awk -F'"' '{print $4}')
 
     echo $token
   register: token_output
