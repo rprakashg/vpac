@@ -259,5 +259,4 @@
   - name: Configure webhooks for repos
     when: gitea_webhook_target is defined
     ansible.builtin.include_tasks: config_git_hooks.yml
-    with_nested:
-    - "{{ repo_names }}"
+    loop: "{{ repo_names }}"
