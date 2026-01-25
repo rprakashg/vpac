@@ -1,6 +1,6 @@
 ---
 # This task setsup gitea webhooks
-- name: Setip eda web hooks from gitea repo
+- name: Setup eda web hooks from gitea repo
   ansible.builtin.uri:
     url: "http://{{ ansible_host }}:{{ gitea_port | default('3030') }}/api/v1/repos/{{ gitea_user }}/{{ item }}/hooks"
     method: GET 
