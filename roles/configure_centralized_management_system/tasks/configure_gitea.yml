@@ -256,7 +256,7 @@
       git checkout -b main
       git push -u origin main
     loop: "{{ repo_names }}"
-  - name: Configure webhooks for repos
-    when: gitea_webhook_target is defined
-    ansible.builtin.include_tasks: config_git_hooks.yml
-    loop: "{{ repo_names }}"
+  #- name: Configure webhooks for repos
+  #  when: gitea_webhook_target is defined
+  #  ansible.builtin.include_tasks: config_git_hooks.yml
+  #  loop: "{{ repo_names }}"
