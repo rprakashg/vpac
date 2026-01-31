@@ -97,7 +97,7 @@
 
 - name: Enable gitea
   ansible.builtin.systemd:
-    name: gitea.service
+    name: gitea.target
     state: started
     enabled: yes
 ...
