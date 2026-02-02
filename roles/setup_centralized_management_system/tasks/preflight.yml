@@ -17,7 +17,7 @@
   become: yes
   ansible.builtin.dnf:
     name: "{{ packages }}"
-    state: latest
+    state: present
   vars:
     packages:
     - python3-pip
