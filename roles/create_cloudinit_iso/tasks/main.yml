@@ -29,3 +29,18 @@
       mode: "0755"
       
 - name: Create cloud init iso
+  block:
+  - name: Make a temp directory to store cloudinit ISO
+    ansible.builtin.tempfile:
+      state: directory
+      suffix: "iso"
+    register: isodir_result
+  - name: Set path in variable
+    ansible.builtin.set_fact:
+      iso_dir: "{{ isodir_result.path }}"
+  - name: Create the cloudinit ISO
+    ansible.builtin.shell: |
+      genisoimage -output {{ iso_dir }}/{{ iso_name }} -volid cidata -joliet -rock {{ cloudinit_files }}/
+  - name: Print full path of cloud-init iso
+    ansible.builtin.debug:
+      msg: "Download CloudInit ISO from -> {{ iso_dir }}/{{ iso_name }}"
