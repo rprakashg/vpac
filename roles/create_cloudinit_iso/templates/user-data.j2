@@ -2,7 +2,7 @@
 users:
 - name: "{{ admin_user }}"
   ssh_authorized_keys: 
-  - "{{ admin_user_ssh_key }}"
+  - "{{ admin_user_ssh_pubkey }}"
   groups: ["wheel"]
   passwd: "{{ admin_user_password | password_hash('sha512') }}"
   shell: /bin/bash
