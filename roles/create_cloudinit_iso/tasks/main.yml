@@ -30,7 +30,7 @@
   - name: Generate network-config file
     ansible.builtin.template:
       src: network-config.j2
-      dest: "{{ cloudinit_files }}/network-config
+      dest: "{{ cloudinit_files }}/network-config"
       mode: "0755"
       
 - name: Create cloud init iso
