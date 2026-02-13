@@ -27,6 +27,11 @@
       src: "user-data.j2"
       dest: "{{ cloudinit_files }}/user-data"
       mode: "0755"
+  - name: Generate network-config file
+    ansible.builtin.template:
+      src: network-config.j2
+      dest: "{{ cloudinit_files }}/network-config
+      mode: "0755"
       
 - name: Create cloud init iso
   block:
@@ -40,7 +45,7 @@
       iso_dir: "{{ isodir_result.path }}"
   - name: Create the cloudinit ISO
     ansible.builtin.shell: |
-      genisoimage -output {{ iso_dir }}/{{ iso_name }} -volid cidata -joliet -rock {{ cloudinit_files }}/
+      genisoimage -output {{ iso_dir }}/{{ iso_name }} -volid cidata -joliet -rock {{ cloudinit_files }}/user-data {{ cloudinit_files }}/meta-data {{ cloudinit_files }}/network-config 
   - name: Print full path of cloud-init iso
     ansible.builtin.debug:
       msg: "Download CloudInit ISO from -> {{ iso_dir }}/{{ iso_name }}"
