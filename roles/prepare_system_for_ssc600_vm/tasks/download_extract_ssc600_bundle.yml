@@ -9,7 +9,7 @@
   - name: Install EPEL release
     ansible.builtin.dnf:
       name: "{{ packages }}"
-      state: latest
+      state: present
       disable_gpg_check: true
     vars:
       packages:
@@ -18,7 +18,7 @@
   - name: Install cab extract
     ansible.builtin.dnf:
       name: "cabextract"
-      state: latest
+      state: present
 
 - name: Extract cab file
   ansible.builtin.shell: |
