@@ -15,7 +15,7 @@ Environment=NON_RT_CORES={{ rt_config.non_rt_cores_cat }}
 # L3 partition for the system
 Environment=NON_RT_CACHE={{ rt_config.non_rt_cache_cat }}
 # L3 partitioning for the SSC600 SW
-Environment=RT_CORES='{{ rt_config.rt_cores }}'
+Environment=RT_CORES='{{ tuned.rt_cores }}'
 Environment=RT_CACHE={{ rt_config.rt_cache }}
 # CPU core for the process bus(es)
 Environment=CPUMASK="{{ rt_config.cpumask }}"
