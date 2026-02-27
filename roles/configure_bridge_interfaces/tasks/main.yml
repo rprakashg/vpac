@@ -1,0 +1,9 @@
+---
+# tasks file for ./roles/configure_networking
+- name: Running setup task
+  become: yes
+  when: iface.skip == false
+  ansible.builtin.include_tasks: create_bridge_interface.yml
+  loop: "{{ bridge_interfaces }}"
+  loop_control:
+    loop_var: iface

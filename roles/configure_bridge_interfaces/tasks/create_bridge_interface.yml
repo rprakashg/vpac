@@ -1,0 +1,48 @@
+---
+# This task creates required virtual networks
+- name: "Creating a linux bridge for {{ iface.name }}"
+  community.general.nmcli:
+    conn_name: "{{ iface.name }}"
+    state: present
+    type: bridge
+    ifname: "{{ iface.name }}"
+    autoconnect: true
+
+- name: Configure IP on the the linux bridge
+  community.general.nmcli:
+    conn_name: "{{ iface.name }}"
+    ifname: "{{ iface.name }}"
+    type: bridge
+    ip4: "{{ iface.ip4 }}"
+    gw4: "{{ iface.gw4 }}"
+    dns4: "{{ iface.dns4 }}"
+    method: manual
+    state: present 
+    autoconnect: true
+
+- name: "Remove IP configuration from {{ iface.nic }}"
+  community.general.nmcli:
+    conn_name: "{{ iface.nic }}"
+    ifname: "{{ iface.nic }}"
+    type: ethernet
+    method: disabled
+    state: present 
+
+- name: "Adding {{ iface.nic }} as bridge slave to {{ iface.name }}"
+  community.general.nmcli:
+    conn_name: "{{ iface.name }}-slave-{{ iface.nic }}"
+    ifname: "{{ iface.nic }}"
+    type: bridge-slave
+    master: "{{ iface.name }}"
+    state: present
+    autoconnect: true
+
+- name: Bring the bridge up
+  community.general.nmcli:
+    conn_name: "{{ iface.name }}"
+    state: up
+
+- name: Bring the bridge slave up 
+  community.general.nmcli:
+    conn_name: "{{ iface.name }}-slave-{{ iface.nic }}"
+    state: up

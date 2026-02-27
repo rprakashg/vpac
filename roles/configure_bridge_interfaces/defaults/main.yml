@@ -1,0 +1,15 @@
+---
+# defaults file for ./roles/configure_networking
+bridge_interfaces:
+- name: Station Bus
+  nic: ""
+  ip4: ""
+  gw4: ""
+  dns4: ""
+  skip: false
+- name: Infra bus`
+  nic: ""
+  ip4: ""
+  gw4: ""
+  dns4: ""
+  skip: false
